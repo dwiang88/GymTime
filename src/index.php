@@ -1,6 +1,6 @@
 <?php
 
-print "Hello world. This will soon be, Gym Time.";
+print "<h1>YES I KNOW. THIS IS A VERY EXCITING PAGE.</h1>";
 
 
 
