@@ -11,16 +11,16 @@
 <div class="workout-date-header">
 	<span>Friday August 26th 2011</span>
 </div>
-<input type="button" value="Add Exercise"/>
+<a href="javascript:workoutMgr.addExercise();">Add Exercise</a>
 	<div class="workout-set-exercise" style="display:inline;">
 		<select name="exercises" id="exercises" >
-			<option>Select</option>
 			<option value="1">Curls</option>
 			<option value="2">Barbell Bench Press</option>
+			<option value="3">Squat</option>
 		</select>
 	</div>
 
-<div class="workout-set">
+<!--<div class="workout-set">
 <div class="workout-set-title">Barbell Bench Press</div>
 		<div class="workout-sets" >
 			<div>
@@ -47,6 +47,8 @@
 			</div>
 		</div>		
 </div>
+-->
+<div id="ExercisesContainer"></div>
 
 </body>
 </html>
