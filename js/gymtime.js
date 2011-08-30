@@ -1,5 +1,5 @@
 // JS Goods
-var workoutMgr = new WorkoutManager();
+//var workoutMgr = new WorkoutManager();
 
 // Functions to call after page is loaded
 $(document).ready(function(){
@@ -9,9 +9,12 @@ $(document).ready(function(){
 
 
 // JS Objects
-
 function DataQuery(){
 	var QueryType = {Move: "Move", Question :"Question"};
+	
+	DataQuery.prototype.updateSet = function(id, weight, reps, setNumber, workoutId){
+	    return this.queryData({Action: "AddSet", ExerciseId:id, Weight: weight, Repetitions:reps, SetNumber:setNumber, WorkoutId:workoutId});
+	}
 	
 	DataQuery.prototype.updateRepetitions = function (reps){
 		return this.queryData("");
@@ -30,8 +33,8 @@ function DataQuery(){
 		}	
 }
 
-function WorkoutManager(){
-	this.workout = new Workout(new Date);
+function WorkoutManager(id,date){
+	this.workout = new Workout(id, date);
 	this.dataQuery = new DataQuery();
 	
 	WorkoutManager.prototype.addExercise = function(){
@@ -55,9 +58,10 @@ function WorkoutManager(){
 			html_title = '<div class="workout-set-title">' + name  + '</div>';
 			html_inputs = '';
 			for(var i =0; i < 4; i++){
-				html_inputs +='<div class="workout-sets">';
+			    var setNum = i + 1;
+				html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
 				html_inputs +='		<div>';
-				html_inputs +='			<input type="text" class="workout-input weight" /> x';
+				html_inputs +='			<input type="text" class="workout-input weight" />lbs x';
 				html_inputs +='			<input type="text" class="workout-input repetitions" />';
 				html_inputs +='		</div>';
 				html_inputs +=' </div>';		
@@ -73,11 +77,14 @@ function WorkoutManager(){
 		var _this = this;
 		$(".workout-input").change(function(event){
 			var id = $(this).parent().parent().parent().attr("id");
-			if($(this).is('.weight')){
-				alert(_this.dataQuery.updateWeight());
-			} else if($(this).is('.repetitions')){
-				
-			}
+			var parent = $(this).parent().parent().parent();
+			var setNumber = $(this).parent().parent().attr("id").substring(9,10);
+			var weight = $("#setnumber" + setNumber + " .weight", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .weight", parent).val();
+			var reps = $("#setnumber" + setNumber + " .repetitions", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .repetitions", parent).val();
+
+		    var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
+		    alert(result);
+
 		});
 	}
 	
@@ -93,9 +100,18 @@ function WorkoutManager(){
 	
 }
 
-function Workout(date) {
+function Workout(id, date) {
 	this.date = date;
 	this.exercises = [];
+	this.workoutId = id;
+	
+	Workout.prototype.setWorkoutId = function(id){
+	    this.workoutId = id;
+	}
+	
+	Workout.prototype.getWorkoutId = function(){
+	    return this.workoutId;
+	}
 	
 	Workout.prototype.setDate = function(date){
 		this.date = date;
@@ -160,6 +176,7 @@ function ExerciseSets(name,id){
 function Set(){
 	this.repetitions;
 	this.weight;
+	this.setNumber;
 	this.id;
 	
 	Set.Prototype.setRepetitions = function(){

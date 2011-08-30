@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 29, 2011 at 04:41 PM
+-- Generation Time: Aug 30, 2011 at 04:40 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-1ubuntu9.5
 
@@ -22,44 +22,23 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Exercise`
+-- Table structure for table `Exercises`
 --
 
-CREATE TABLE IF NOT EXISTS `Exercise` (
+CREATE TABLE IF NOT EXISTS `Exercises` (
   `ExerciseID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` text NOT NULL,
   `MuscleGroup` text NOT NULL,
-  `Type` int(11) NOT NULL,
   PRIMARY KEY (`ExerciseID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `Exercise`
+-- Dumping data for table `Exercises`
 --
 
-INSERT INTO `Exercise` (`ExerciseID`, `Name`, `MuscleGroup`, `Type`) VALUES
-(1, 'Barbell Bench Press', 'Chest', 0),
-(2, 'Barbell Incline Bench Press', 'Chest', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ExerciseSets`
---
-
-CREATE TABLE IF NOT EXISTS `ExerciseSets` (
-  `ExerciseSetsID` int(11) NOT NULL DEFAULT '0',
-  `SetID` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ExerciseSets`
---
-
-INSERT INTO `ExerciseSets` (`ExerciseSetsID`, `SetID`) VALUES
-(1, 1),
-(1, 2),
-(1, 3);
+INSERT INTO `Exercises` (`ExerciseID`, `Name`, `MuscleGroup`) VALUES
+(1, 'Barbell Bench Press', 'Chest'),
+(2, 'Dumbbell Incline Press', 'Chest');
 
 -- --------------------------------------------------------
 
@@ -68,21 +47,41 @@ INSERT INTO `ExerciseSets` (`ExerciseSetsID`, `SetID`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `Sets` (
-  `SetsID` int(11) NOT NULL AUTO_INCREMENT,
-  `ExerciseID` int(11) DEFAULT NULL,
-  `Weight` int(11) DEFAULT NULL,
-  `Repetitions` int(11) DEFAULT NULL,
-  PRIMARY KEY (`SetsID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `SetID` int(11) NOT NULL,
+  `ExerciseID` int(11) NOT NULL,
+  `Weight` int(11) NOT NULL,
+  `Repetitions` int(11) NOT NULL,
+  `SetNumber` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Sets`
 --
 
-INSERT INTO `Sets` (`SetsID`, `ExerciseID`, `Weight`, `Repetitions`) VALUES
-(1, 1, 185, 10),
-(2, 1, 225, 8),
-(3, 1, 135, 15);
+INSERT INTO `Sets` (`SetID`, `ExerciseID`, `Weight`, `Repetitions`, `SetNumber`) VALUES
+(1, 1, 135, 10, 1),
+(2, 2, 135, 4, 2),
+(1, 1, 135, 4, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Users`
+--
+
+CREATE TABLE IF NOT EXISTS `Users` (
+  `UserID` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` text NOT NULL,
+  `Email` text NOT NULL,
+  PRIMARY KEY (`UserID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `Users`
+--
+
+INSERT INTO `Users` (`UserID`, `Username`, `Email`) VALUES
+(1, 'john.flores', 'john.s.flores@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -91,15 +90,18 @@ INSERT INTO `Sets` (`SetsID`, `ExerciseID`, `Weight`, `Repetitions`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `Workouts` (
-  `WorkoutsID` int(11) NOT NULL AUTO_INCREMENT,
-  `Date` date NOT NULL,
-  `ExerciseSetsID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`WorkoutsID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `WorkoutID` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` date DEFAULT NULL,
+  `SetID` int(11) DEFAULT NULL,
+  `UserID` int(11) NOT NULL,
+  PRIMARY KEY (`WorkoutID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `Workouts`
 --
 
-INSERT INTO `Workouts` (`WorkoutsID`, `Date`, `ExerciseSetsID`) VALUES
-(1, '2011-08-29', 1);
+INSERT INTO `Workouts` (`WorkoutID`, `Date`, `SetID`, `UserID`) VALUES
+(2, '2011-08-28', 1, 1),
+(3, '2011-08-29', 1, 1),
+(5, '2011-08-30', -1, 1);
