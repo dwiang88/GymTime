@@ -40,19 +40,21 @@ function WorkoutManager(id,date){
 	
 	WorkoutManager.prototype.load = function(jsonExercises){
 	    var exercises = jQuery.parseJSON(jsonExercises);
-	    for(var x in exercises){
-	    // References for Data
-	        //exercises[x].Name;
-	        //exercises[x].ID;
-	        //exercises[x].Set	        
-	        for(var i in exercises[x].Set){
-	        //exercises[x].Set[i].Weight
-	        //exercises[x].Set[i].Reps
-	        //exercises[x].Set[i].SetNumber
-	        }
+	    for(var x in exercises){     
+	        this.loadExercise(exercises[x].Name,exercises[x].ID, exercises[x].Set);
 	    }
 	}
-	
+	WorkoutManager.prototype.loadExercise = function(name, id, sets){
+	    this.workout.addExercise(name,id);
+	    var id = this.workout.getExerciseIdIndex(id);
+        for(var i in sets){
+            var weight = sets[i].Weight;
+            var reps = sets[i].Repetitions;
+            var setNumber = sets[i].SetNumber;
+            this.workout.getExercises()[id].addSet(weight,reps,setNumber);
+        }	    
+	    this.refresh();
+    }
 	WorkoutManager.prototype.addExercise = function(){
 		this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
 		this.refresh();
@@ -70,18 +72,23 @@ function WorkoutManager(id,date){
 		for(var x in this.workout.getExercises()){
 			var name = this.workout.getExercises()[x].getExerciseName();
 			var id = this.workout.getExercises()[x].getExerciseID();
+			var sets = this.workout.getExercises()[x].getSets();
+
 			
 			html_title = '<div class="workout-set-title">' + name  + '</div>';
 			html_inputs = '';
-			for(var i =0; i < 4; i++){
-			    var setNum = i + 1;
-				html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
-				html_inputs +='		<div>';
-				html_inputs +='			<input type="text" class="workout-input weight" />lbs x';
-				html_inputs +='			<input type="text" class="workout-input repetitions" />';
-				html_inputs +='		</div>';
-				html_inputs +=' </div>';		
-			}
+
+		    for(var i =0; i < 4; i++){
+		        var setNum = i + 1;
+		      
+			    html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
+			    html_inputs +='		<div>';
+			    html_inputs +='			<input type="text" value="' + (sets[x].getSetNumber() == undefined ? "" : sets[x].getWeight()) + '" class="workout-input weight" />lbs x';
+			    html_inputs +='			<input type="text" value="' + (sets[x].getSetNumber() == undefined ? "" : sets[x].getRepetitions()) + '" class="workout-input repetitions" />';
+			    html_inputs +='		</div>';
+			    html_inputs +=' </div>';		
+		    }
+		    
 			html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
 			html_exercise += '<a href="javascript:workoutMgr.removeExercise(' + id +');">Remove</a>';
 		}
@@ -134,13 +141,24 @@ function Workout(id, date) {
 		this.date = date;
 	}
 	
-	Workout.prototype.addExercise = function(name, id){
+	Workout.prototype.addExercise = function(name, id, sets){
+	
 		if(this.exerciseExists(id)){
 			alert("IT EXISTS");
 		} else {
 			this.exercises[this.exercises.length] = new ExerciseSets(name, id);
 		}
 	}
+	Workout.prototype.getExerciseIdIndex = function(exerciseId){
+		var idx = -1;
+		for (var x in this.exercises){
+			if(exerciseId == this.exercises[x].getExerciseID()){
+				idx = x;
+			}
+		}
+		return idx;	    
+	}
+	
 	Workout.prototype.removeExercise = function(id){
 		for (var x in this.exercises){
 			if(id == this.exercises[x].getExerciseID()){
@@ -185,29 +203,29 @@ function ExerciseSets(name,id){
 	ExerciseSets.prototype.getExerciseID = function(){
 		return this.id;
 	}
-	ExerciseSets.prototype.addSet = function(reps, weight){
-		this.sets[this.sets.length] = new Set(reps,weight);
+	ExerciseSets.prototype.addSet = function(reps, weight, setNumber){
+		this.sets[this.sets.length] = new Set(reps,weight,setNumber);
+		
+	}
+	ExerciseSets.prototype.getSets = function(){
+	    return this.sets;
 	}
 }
 
-function Set(){
-	this.repetitions;
-	this.weight;
-	this.setNumber;
-	this.id;
+function Set(reps, weight,setNumber){
+	this.repetitions = reps;
+	this.weight = weight;
+	this.setNumber = setNumber;	
 	
-	Set.Prototype.setRepetitions = function(){
-	
-	}
-	Set.Prototype.getRepetitions = function(){
-		return this.repititions;
-	}	
-	Set.Prototype.setWeight = function(){
-	
-	}
-	Set.Prototype.getWeight = function(){
-		return this.weight;
-	}		
+	Set.prototype.getSetNumber = function(){
+	    return this.setNumber;
+    }
+    Set.prototype.getWeight = function(){
+        return this.weight;
+    }		
+    Set.prototype.getRepetitions = function(){
+        return this.repetitions;
+    }
 }
 
 
