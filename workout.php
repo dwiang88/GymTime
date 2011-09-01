@@ -20,8 +20,13 @@
 
 <body>
 <?php
-    print '<script>';
-    print   "var workoutMgr = new WorkoutManager('" . $workoutId . "','" . $sqlMgr->getWorkoutDate($workoutId)  . "')";
+    print '<script type="text/javascript">';
+    print   "var workoutMgr = new WorkoutManager('" . $workoutId . "','" . $sqlMgr->getWorkoutDate($workoutId)  . "');";
+    if($sqlMgr->getWorkoutSetID($workoutId) != -1){
+        $setId = $sqlMgr->getWorkoutSetID($workoutId);
+        $data = $sqlMgr->getExerciseData($setId);
+        print   "$(document).ready(function(){workoutMgr.load('" . $data  . "');});";
+    }
     print '</script>';
 
 ?>

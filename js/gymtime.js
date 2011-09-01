@@ -36,6 +36,22 @@ function DataQuery(){
 function WorkoutManager(id,date){
 	this.workout = new Workout(id, date);
 	this.dataQuery = new DataQuery();
+	this.workoutId = id;
+	
+	WorkoutManager.prototype.load = function(jsonExercises){
+	    var exercises = jQuery.parseJSON(jsonExercises);
+	    for(var x in exercises){
+	    // References for Data
+	        //exercises[x].Name;
+	        //exercises[x].ID;
+	        //exercises[x].Set	        
+	        for(var i in exercises[x].Set){
+	        //exercises[x].Set[i].Weight
+	        //exercises[x].Set[i].Reps
+	        //exercises[x].Set[i].SetNumber
+	        }
+	    }
+	}
 	
 	WorkoutManager.prototype.addExercise = function(){
 		this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
@@ -81,9 +97,10 @@ function WorkoutManager(id,date){
 			var setNumber = $(this).parent().parent().attr("id").substring(9,10);
 			var weight = $("#setnumber" + setNumber + " .weight", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .weight", parent).val();
 			var reps = $("#setnumber" + setNumber + " .repetitions", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .repetitions", parent).val();
+            if(reps != 0 && weight != 0){
+		        var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
+		    }
 
-		    var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
-		    alert(result);
 
 		});
 	}
