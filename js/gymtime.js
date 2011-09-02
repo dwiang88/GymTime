@@ -43,6 +43,15 @@ function WorkoutManager(id,date){
 	this.workoutId = id;
 	this.setId;
 	
+	WorkoutManager.prototype.cycle = function(){
+		$('#ExercisesContainer').cycle({ 
+			fx:     'scrollHorz', 
+			prev:   '#prev1', 
+			next:   '#next1', 
+			timeout: 0 
+		});		
+	}
+
 	WorkoutManager.prototype.setSetId = function(setId){
 		this.setId = setId;
 		//alert(this.setId);
@@ -78,6 +87,8 @@ function WorkoutManager(id,date){
 		this.workout.removeExercise(exerciseId);
 		// Remove the element with class value of workout-set and id of exerciseId
 		$(".workout-set#" + exerciseId).remove();
+		
+		
 	}
 
 	this.addToScreen = function(x){
@@ -110,6 +121,7 @@ function WorkoutManager(id,date){
 		
 		$("#ExercisesContainer").append(html_exercise);
 		this.addInputEventHandlers();
+		
 	}
 	
 	this.refresh = function(){

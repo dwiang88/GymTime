@@ -15,6 +15,7 @@
   <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
   <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script> 
+  <script type="text/javascript" src="js/jquery.cycle.all.js"></script> 
   <script type="text/javascript" src="js/gymtime.js"></script> 
 </head>
 
@@ -27,6 +28,7 @@
 		print	"$(document).ready(function(){ workoutMgr.setSetId('" . $setId . "');});";
         $data = $sqlMgr->getExerciseData($setId);
         print   "$(document).ready(function(){workoutMgr.load('" . $data  . "');});";
+		
     }
     print '</script>';
 
@@ -51,6 +53,9 @@
 	</div>
 
 <div id="ExercisesContainer"></div>
+<a href="#" id="prev1"/>Previous</a>
+<a href="#" id="next1"/>Next</a>
+
 
 </body>
 </html>
