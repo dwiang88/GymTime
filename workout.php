@@ -24,6 +24,7 @@
     print   "var workoutMgr = new WorkoutManager('" . $workoutId . "','" . $sqlMgr->getWorkoutDate($workoutId)  . "');";
     if($sqlMgr->getWorkoutSetID($workoutId) != -1){
         $setId = $sqlMgr->getWorkoutSetID($workoutId);
+		print	"$(document).ready(function(){ workoutMgr.setSetId('" . $setId . "');});";
         $data = $sqlMgr->getExerciseData($setId);
         print   "$(document).ready(function(){workoutMgr.load('" . $data  . "');});";
     }

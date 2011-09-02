@@ -12,6 +12,10 @@ $(document).ready(function(){
 function DataQuery(){
 	var QueryType = {Move: "Move", Question :"Question"};
 	
+	DataQuery.prototype.removeSet = function(exerciseId, setId){
+		return this.queryData({Action: "RemoveSet", SetId: setId, ExerciseId:exerciseId});
+	}
+	
 	DataQuery.prototype.updateSet = function(id, weight, reps, setNumber, workoutId){
 	    return this.queryData({Action: "AddSet", ExerciseId:id, Weight: weight, Repetitions:reps, SetNumber:setNumber, WorkoutId:workoutId});
 	}
@@ -37,7 +41,15 @@ function WorkoutManager(id,date){
 	this.workout = new Workout(id, date);
 	this.dataQuery = new DataQuery();
 	this.workoutId = id;
+	this.setId;
 	
+	WorkoutManager.prototype.setSetId = function(setId){
+		this.setId = setId;
+		//alert(this.setId);
+	}
+	WorkoutManager.prototype.getSetId = function(){
+		return this.setId;
+	}
 	WorkoutManager.prototype.load = function(jsonExercises){
 	    var exercises = jQuery.parseJSON(jsonExercises);
 	    for(var x in exercises){     
@@ -53,16 +65,54 @@ function WorkoutManager(id,date){
             var setNumber = sets[i].SetNumber;
             this.workout.getExercises()[id].addSet(weight,reps,setNumber);
         }	    
-	    this.refresh();
+	    this.addToScreen(id);
     }
 	WorkoutManager.prototype.addExercise = function(){
 		this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
-		this.refresh();
+		//this.refresh();
+		this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
 	}
 	
-	WorkoutManager.prototype.removeExercise = function(id){
-		this.workout.removeExercise(id);
-		this.refresh();
+	WorkoutManager.prototype.removeExercise = function(exerciseId,setId){
+		//this.workout.removeExercise(id);
+		var rowsRemoved = this.dataQuery.removeSet(exerciseId,setId);
+		//this.workout.removeExercise(id);
+		// Remove the element with class value of workout-set and id of exerciseId
+		$(".workout-set#" + exerciseId).remove();
+		
+		//this.refresh();
+	}
+
+	this.addToScreen = function(x){
+		var html_title = '';
+		var html_inputs = '';
+		html_exercise = '';
+		
+		var name = this.workout.getExercises()[x].getExerciseName();
+		var id = this.workout.getExercises()[x].getExerciseID();
+		var sets = this.workout.getExercises()[x].getSets();
+
+		
+		html_title = '<div class="workout-set-title">' + name  + '</div>';
+		html_inputs = '';
+
+		for(var i =0; i < 4; i++){
+			var setNum = i + 1;
+		  
+			html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
+			html_inputs +='		<div>';
+			html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
+			html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
+			html_inputs +='		</div>';
+			html_inputs +=' </div>';		
+		}
+		html_remove = '<a href="javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');">Remove</a>';
+		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + html_remove + '</div>';
+		
+		//$("#ExercisesContainer").append(html_exercise);
+		
+		$("#ExercisesContainer").append(html_exercise);
+		this.addInputEventHandlers();
 	}
 	
 	this.refresh = function(){
@@ -70,6 +120,7 @@ function WorkoutManager(id,date){
 		var html_inputs = '';
 		var html_exercise = '';
 		for(var x in this.workout.getExercises()){
+			html_exercise = '';
 			var name = this.workout.getExercises()[x].getExerciseName();
 			var id = this.workout.getExercises()[x].getExerciseID();
 			var sets = this.workout.getExercises()[x].getSets();
@@ -83,14 +134,15 @@ function WorkoutManager(id,date){
 		      
 			    html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
 			    html_inputs +='		<div>';
-			    html_inputs +='			<input type="text" value="' + (sets[x].getSetNumber() == undefined ? "" : sets[x].getWeight()) + '" class="workout-input weight" />lbs x';
-			    html_inputs +='			<input type="text" value="' + (sets[x].getSetNumber() == undefined ? "" : sets[x].getRepetitions()) + '" class="workout-input repetitions" />';
+			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
+			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
 			    html_inputs +='		</div>';
 			    html_inputs +=' </div>';		
 		    }
 		    
 			html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
-			html_exercise += '<a href="javascript:workoutMgr.removeExercise(' + id +');">Remove</a>';
+			html_exercise += '<a href="javascript:workoutMgr.removeExercise(' + id +', '+  + ');">Remove</a>';
+			//$("#ExercisesContainer").append(html_exercise);
 		}
 		$("#ExercisesContainer").html(html_exercise);
 		this.addInputEventHandlers();
@@ -203,7 +255,7 @@ function ExerciseSets(name,id){
 	ExerciseSets.prototype.getExerciseID = function(){
 		return this.id;
 	}
-	ExerciseSets.prototype.addSet = function(reps, weight, setNumber){
+	ExerciseSets.prototype.addSet = function(weight, reps, setNumber){
 		this.sets[this.sets.length] = new Set(reps,weight,setNumber);
 		
 	}

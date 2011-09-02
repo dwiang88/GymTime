@@ -1,7 +1,8 @@
 <?php 
 require 'SQLManager.class.php';
 $action = "";
-$action = $_GET["Action"];
+//$action = $_GET["Action"];
+$action = isset($_GET["Action"]) ? $_GET["Action"] : "";
 if($action == ""){
     $action = $_POST["Action"];
 }
@@ -23,6 +24,12 @@ if($action == "AddSet"){
     //print "Add $exerciseId Weight:$weight Reps:$reps SetNumber:$setNumber WorkoutId:$workoutId";
     $sqlMgr = new SQLManager();
     $sqlMgr->updateSet($exerciseId, $weight, $reps, $setNumber, $workoutId);
+}
+if($action == "RemoveSet"){
+	$exerciseId = $_POST["ExerciseId"];
+	$setId = $_POST["SetId"];
+	$sqlMgr = new SQLManager();
+	$sqlMgr->removeSet($exerciseId,$setId);
 }
 
 

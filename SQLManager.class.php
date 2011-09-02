@@ -72,12 +72,12 @@
                 $this->updateWorkoutSetID($workoutId,$newSetId);
                 if(!$this->setNumberExists($newSetId, $exerciseId,$setNumber)){
                     $this->addNewSet($newSetId,$exerciseId,$setNumber,$weight,$reps);
-                    print 'Added!';
+                    //print 'Added!';
                 }  else {print 'Blah';}
                 
             } else {
                 if(!$this->setNumberExists($setId, $exerciseId,$setNumber)){
-                    print 'Adding set';
+                    //print 'Adding set';
                     $this->addNewSet($setId,$exerciseId,$setNumber,$weight,$reps);
                 } else {
                     $sql = "UPDATE Sets SET Weight='$weight', Repetitions='$reps' WHERE SetID='$setId' AND ExerciseID='$exerciseId' AND SetNumber='$setNumber';";
@@ -146,6 +146,13 @@
            
             
         }
+		
+		public function removeSet($exerciseId,$setId){
+			mysql_query("DELETE FROM sets WHERE ExerciseID=\"$exerciseId\" AND SetID =\"$setId\" ");
+			$removed = mysql_affected_rows();
+			mysql_close($this->con);
+			print $removed;
+		}
         
         private function getSetExercisesIDs($setId){
             $exerciseIds = array();
