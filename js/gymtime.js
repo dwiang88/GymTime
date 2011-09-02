@@ -74,13 +74,10 @@ function WorkoutManager(id,date){
 	}
 	
 	WorkoutManager.prototype.removeExercise = function(exerciseId,setId){
-		//this.workout.removeExercise(id);
 		var rowsRemoved = this.dataQuery.removeSet(exerciseId,setId);
-		//this.workout.removeExercise(id);
+		this.workout.removeExercise(exerciseId);
 		// Remove the element with class value of workout-set and id of exerciseId
 		$(".workout-set#" + exerciseId).remove();
-		
-		//this.refresh();
 	}
 
 	this.addToScreen = function(x){
