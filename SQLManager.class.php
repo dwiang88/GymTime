@@ -54,9 +54,10 @@
             }
         }
         
-        public function getExercises(){
+        public function getExercises($muscleGroup){
+		
             $data = array();
-            $sql = "SELECT * FROM Exercises";
+            $sql = $muscleGroup == null ? "SELECT * FROM Exercises" : "SELECT * FROM Exercises WHERE MuscleGroup =\"$muscleGroup\"";
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
                 //print $row['Name'];
@@ -64,6 +65,17 @@
             }
             return $data;   
         }
+		
+        public function getExerciseCategories(){
+            $data = array();
+            $sql = "SELECT ExerciseID, MuscleGroup FROM exercises GROUP BY MuscleGroup ASC";
+            $result = mysql_query($sql, $this->con);
+            while($row = mysql_fetch_array($result)) {
+                //print $row['Name'];
+                array_push($data, array("ID"=>$row['ExerciseID'], "MuscleGroup"=>$row['MuscleGroup']));
+            }
+            return $data;   
+        }		
         
         public function UpdateSet($exerciseId, $weight, $reps, $setNumber, $workoutId){
             $setId = $this->getWorkoutSetID($workoutId);

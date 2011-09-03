@@ -1,11 +1,6 @@
 // JS Goods
 //var workoutMgr = new WorkoutManager();
 
-// Functions to call after page is loaded
-$(document).ready(function(){
-
-	
-});
 
 
 // JS Objects
@@ -20,13 +15,10 @@ function DataQuery(){
 	    return this.queryData({Action: "AddSet", ExerciseId:id, Weight: weight, Repetitions:reps, SetNumber:setNumber, WorkoutId:workoutId});
 	}
 	
-	DataQuery.prototype.updateRepetitions = function (reps){
-		return this.queryData("");
+	DataQuery.prototype.getExercises = function (muscleGroup){
+		return this.queryData({Action: "GetExercises", MuscleGroup: muscleGroup});
 	}
 	
-	DataQuery.prototype.updateWeight = function (){
-		return this.queryData("");
-	}	
 	this.queryData = function (params){
 		return $.ajax({
 						async: false,
@@ -43,6 +35,21 @@ function WorkoutManager(id,date){
 	this.workoutId = id;
 	this.setId;
 	this.currentExerciseId;
+	
+	// Used for instances where a handle to the JS object is needed inside a jQuery function. jQuery overrides this to refer to the current DOM element.
+	var _this = this; 
+	
+	WorkoutManager.prototype.muscleGroup = function(){
+		var selectedGroup = $(this).val();
+		var exercises = jQuery.parseJSON(_this.dataQuery.getExercises(selectedGroup));
+		var html = '';
+		for(var x in exercises){
+			html += '<option value="' + exercises[x].ID + '" >' + exercises[x].Name + '</a>';
+		}
+		$("#exercises").html(html);
+		
+		
+	}
 	
 	WorkoutManager.prototype.cycle = function(motion){
 			var indexCount = this.workout.getExercises().length - 1;
@@ -88,9 +95,11 @@ function WorkoutManager(id,date){
 	    this.addToScreen(id);
     }
 	WorkoutManager.prototype.addExercise = function(){
-		this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
+		var isValid = this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
 		//this.refresh();
-		this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
+		if(isValid){
+			this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
+		}
 	}
 	
 	WorkoutManager.prototype.removeExercise = function(exerciseId,setId){
@@ -215,12 +224,15 @@ function Workout(id, date) {
 	}
 	
 	Workout.prototype.addExercise = function(name, id, sets){
-	
+		var isValid;
 		if(this.exerciseExists(id)){
 			alert("IT EXISTS");
+			isValid = false;
 		} else {
 			this.exercises[this.exercises.length] = new ExerciseSets(name, id);
+			isValid = true;
 		}
+		return isValid;
 	}
 	Workout.prototype.getExerciseIdIndex = function(exerciseId){
 		var idx = -1;
@@ -317,4 +329,8 @@ function Set(reps, weight,setNumber){
 	}
 }
 
-
+// Functions to call after page is loaded
+$(document).ready(function(){
+	$("#exercise_categories").change(workoutMgr.muscleGroup);
+	$('.button').css("font-size", "12").button();
+});

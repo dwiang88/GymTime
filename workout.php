@@ -43,19 +43,29 @@
 <table>
 <tr>
 <td valign="top">
-<div id="ExercisesContainer" style="width:250px;"></div>
+<div id="ExercisesContainer" style="width:200px;"></div>
 </td>
 <td>
-<a href="javascript:workoutMgr.addExercise();">Add Exercise</a>
-	<div class="workout-set-exercise" style="display:inline;">
+	<div class="workout-set-exercise-types" style="">
+		<select name="exercise_categories" id="exercise_categories" >
+		<option value="null" >All</option>
+		<?php
+            foreach ($sqlMgr->getExerciseCategories() as $exercise){
+                print '<option value="' . $exercise["MuscleGroup"] .'">' . $exercise["MuscleGroup"] .'</option>';
+            }           
+		?>		
+		</select>
+	</div>
+	<div class="workout-set-exercise" style="">
 		<select name="exercises" id="exercises" >
 		<?php
-            foreach ($sqlMgr->getExercises() as $exercise){
+            foreach ($sqlMgr->getExercises(null) as $exercise){
                 print '<option value="' . $exercise["ID"] .'">' . $exercise["Name"] .'</option>';
             }           
 		?>
 		</select>
 	</div>
+	<a href="javascript:workoutMgr.addExercise();" class="button">Add Exercise</a>
 </td>
 </tr>
 </table>

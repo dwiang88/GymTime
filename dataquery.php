@@ -31,6 +31,12 @@ if($action == "RemoveSet"){
 	$sqlMgr = new SQLManager();
 	$sqlMgr->removeSet($exerciseId,$setId);
 }
+if($action == "GetExercises"){
+	$muscleGroup = $_POST["MuscleGroup"] == "null" ? null : $_POST["MuscleGroup"];
+	$sqlMgr = new SQLManager();
+	$exercises = $sqlMgr->getExercises($muscleGroup);
+	print json_encode($exercises);
+}
 
 
 
