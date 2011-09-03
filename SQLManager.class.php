@@ -3,7 +3,10 @@
         public $con = "";
         
         function __construct() {
-            $this->con = mysql_connect("localhost","root","@admin1@admin1");
+		$env = json_decode(file_get_contents("/home/dotcloud/environment.json"), true);
+
+    
+            $this->con = mysql_connect($env['DOTCLOUD_GYMTIME_MYSQL_HOST'],$env['DOTCLOUD_GYMTIME_MYSQL_LOGIN'], $env['DOTCLOUD_GYMTIME_MYSQL_PASSWORD'];);
             if (!$this->con){
               die('Could not connect: ' . mysql_error());
             }
