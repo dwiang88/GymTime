@@ -42,15 +42,26 @@ function WorkoutManager(id,date){
 	this.dataQuery = new DataQuery();
 	this.workoutId = id;
 	this.setId;
+	this.currentExerciseId;
 	
-	WorkoutManager.prototype.cycle = function(){
-		$('#ExercisesContainer').cycle({ 
-			fx:     'scrollHorz', 
-			prev:   '#prev1', 
-			next:   '#next1', 
-			timeout: 0 
-		});		
+	WorkoutManager.prototype.cycle = function(motion){
+			var indexCount = this.workout.getExercises().length - 1;
+			if(motion == "next"){
+				if(this.currentExerciseId < indexCount){
+					this.addToScreen(this.currentExerciseId + 1);
+				} else {
+					this.addToScreen(0);
+				}
+			} else if(motion == "previous"){
+				if(this.currentExerciseId > 0){
+					this.addToScreen(this.currentExerciseId - 1);
+				} else {
+					this.addToScreen(indexCount);
+				}
+			}
+			
 	}
+
 
 	WorkoutManager.prototype.setSetId = function(setId){
 		this.setId = setId;
@@ -87,6 +98,7 @@ function WorkoutManager(id,date){
 		this.workout.removeExercise(exerciseId);
 		// Remove the element with class value of workout-set and id of exerciseId
 		$(".workout-set#" + exerciseId).remove();
+		this.addToScreen(0);
 		
 		
 	}
@@ -95,6 +107,7 @@ function WorkoutManager(id,date){
 		var html_title = '';
 		var html_inputs = '';
 		html_exercise = '';
+		this.currentExerciseId = x;
 		
 		var name = this.workout.getExercises()[x].getExerciseName();
 		var id = this.workout.getExercises()[x].getExerciseID();
@@ -117,11 +130,9 @@ function WorkoutManager(id,date){
 		html_remove = '<a href="javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');">Remove</a>';
 		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + html_remove + '</div>';
 		
+		$("#ExercisesContainer").html(html_exercise);
 		//$("#ExercisesContainer").append(html_exercise);
-		
-		$("#ExercisesContainer").append(html_exercise);
 		this.addInputEventHandlers();
-		
 	}
 	
 	this.refresh = function(){
@@ -167,6 +178,7 @@ function WorkoutManager(id,date){
 			var reps = $("#setnumber" + setNumber + " .repetitions", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .repetitions", parent).val();
             if(reps != 0 && weight != 0){
 		        var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
+				_this.workout.getExercises()[_this.workout.getExerciseIdIndex(id)].addSet(weight,reps,setNumber);
 		    }
 
 
@@ -265,7 +277,17 @@ function ExerciseSets(name,id){
 		return this.id;
 	}
 	ExerciseSets.prototype.addSet = function(weight, reps, setNumber){
-		this.sets[this.sets.length] = new Set(reps,weight,setNumber);
+		var exists = false;
+		for(var x in this.sets){
+			if(this.sets[x].getSetNumber() == setNumber){
+				this.sets[x].setWeight(weight);
+				this.sets[x].setRepetitions(reps);
+				exists = true;
+			}
+		}
+		if(!exists){
+			this.sets[this.sets.length] = new Set(reps,weight,setNumber);
+		}
 		
 	}
 	ExerciseSets.prototype.getSets = function(){
@@ -287,6 +309,12 @@ function Set(reps, weight,setNumber){
     Set.prototype.getRepetitions = function(){
         return this.repetitions;
     }
+	Set.prototype.setWeight = function(weight){
+		this.weight = weight;
+	}
+	Set.prototype.setRepetitions = function(reps){
+		this.repetitions = reps;
+	}
 }
 
 

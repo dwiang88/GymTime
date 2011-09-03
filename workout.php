@@ -40,7 +40,12 @@
 	?></span>
 </div>
 
-
+<table>
+<tr>
+<td valign="top">
+<div id="ExercisesContainer" style="width:250px;"></div>
+</td>
+<td>
 <a href="javascript:workoutMgr.addExercise();">Add Exercise</a>
 	<div class="workout-set-exercise" style="display:inline;">
 		<select name="exercises" id="exercises" >
@@ -51,10 +56,12 @@
 		?>
 		</select>
 	</div>
+</td>
+</tr>
+</table>
 
-<div id="ExercisesContainer"></div>
-<a href="#" id="prev1"/>Previous</a>
-<a href="#" id="next1"/>Next</a>
+<a href="javascript:workoutMgr.cycle('previous');" />Previous</a>
+<a href="javascript:workoutMgr.cycle('next');" />Next</a>
 
 
 </body>
