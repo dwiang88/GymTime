@@ -17,5 +17,12 @@
     <input type="submit" name="submit" value="New Workout" id="newworkout" /><br>
 </form>
 
+<?php
+   print "v0.2";
+         
+
+
+?>
+
 </body>
 </html>
