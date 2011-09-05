@@ -3,7 +3,11 @@
         public $con = "";
         
         function __construct() {
+		try{
 		      $env = json_decode(file_get_contents("/home/dotcloud/environment.json"), true);
+			 } catch (Exception $ex){
+			 
+			 }
 		      if(!isset($env)){
 		         // Debug Environment. Don't bother using ha.
                $this->con = mysql_connect('localhost',

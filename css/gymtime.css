@@ -1,7 +1,6 @@
 .workout-date-header {
 	border:1px solid #cccccc;
 	border-radius: 5px;
-	width:400px;
 	padding:5px;
 }
 
@@ -14,7 +13,6 @@
 }
 
 .workout-set {
-	width:500px;
 }
 
 .workout-set-remove {

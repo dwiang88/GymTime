@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <?php
@@ -11,12 +12,17 @@
    print "Workout - " . $sqlMgr->getWorkoutDate($workoutId);
 ?>
 </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="css/gymtime.css" /> 
-  <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+  <!--<link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
   <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script> 
   <script type="text/javascript" src="js/jquery.cycle.all.js"></script> 
-  <script type="text/javascript" src="js/gymtime.js"></script> 
+  -->
+	<script type="text/javascript" src="js/gymtime.js"></script> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>  
 </head>
 
 <body>
@@ -33,22 +39,23 @@
     print '</script>';
 
 ?>
-<div class="workout-date-header">
-	<span>
-	<?php 
-	    print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
-	?></span>
+<div id="GymTimeContainer">
+<div data-role="header">
+		<h1>	
+		<?php 
+			print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
+		?>
+	</h1>
 </div>
 
 <table>
 <tr>
 <td valign="top">
 <div id="StartExercisePanel">
-   <a href="javascript:workoutMgr.startExercise();" class="button">Start Exercise</a><br>
-   <a href="javascript:alert(2);" class="button">Finish Workout</a>
+   <a href="javascript:workoutMgr.startExercise();" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a>
+   <a href="javascript:alert(2);" data-role="button" data-icon="check" data-theme="b">Finish Workout</a>
 
    <div id="ExercisesCompletedContainer">
-      <h3>Completed Exercise </h3>
       <div id="ExercisesCompleted"></div>
    </div>
 </div>
@@ -63,7 +70,7 @@
 		   ?>		
 		   </select>
 	   </div>
-	   <div class="workout-set-exercise" style="">
+	   <div class="workout-set-exercise" style="width:35em;">
 		   <select name="exercises" id="exercises" >
 		   <?php
                foreach ($sqlMgr->getExercises(null) as $exercise){
@@ -72,19 +79,15 @@
 		   ?>
 		   </select>
 	   </div>
-	   <a href="javascript:workoutMgr.addExercise();" class="button">Start Set</a>
+	   <a href="javascript:workoutMgr.addExercise();" data-role="button" data-icon="delete">Start Set</a>
 	   <a href="javascript:workoutMgr.completeSet();" class="button">Return to Workout</a>
 </div>
-<div id="ExercisesContainer" style="width:200px;"></div>
+<div id="ExercisesContainer"></div>
 
 </td>
 </tr>
 </table>
 
-<div style="display:none;">
-<a href="javascript:workoutMgr.cycle('previous');" />Previous</a>
-<a href="javascript:workoutMgr.cycle('next');" />Next</a>
 </div>
-
 </body>
 </html>
