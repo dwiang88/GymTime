@@ -144,7 +144,6 @@ function WorkoutManager(id,date){
 		var rowsRemoved = this.dataQuery.removeSet(exerciseId,setId);
 		
 		this.workout.removeExercise(exerciseId);
-      this.completeSet();
 		// Remove the element with class value of workout-set and id of exerciseId
 		//$(".workout-set#" + exerciseId).remove();
 		//this.addToScreen(0);

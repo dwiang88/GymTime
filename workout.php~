@@ -73,7 +73,6 @@
 		   </select>
 	   </div>
 	   <a href="javascript:workoutMgr.addExercise();" class="button">Start Set</a>
-	   <a href="javascript:workoutMgr.completeSet();" class="button">Return to Workout</a>
 </div>
 <div id="ExercisesContainer" style="width:200px;"></div>
 

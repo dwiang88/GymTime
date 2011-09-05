@@ -175,7 +175,7 @@
         }
 		
 		public function removeSet($exerciseId,$setId){
-			mysql_query("DELETE FROM sets WHERE ExerciseID=\"$exerciseId\" AND SetID =\"$setId\" ");
+			mysql_query("DELETE FROM Sets WHERE ExerciseID=\"$exerciseId\" AND SetID =\"$setId\" ");
 			$removed = mysql_affected_rows();
 			mysql_close($this->con);
 			print $removed;

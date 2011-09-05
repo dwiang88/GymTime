@@ -1,3 +1,10 @@
+<?php session_start();
+   if(!isset($_SESSION['isLoggedIn'])){
+        //header( 'Location: login.php');
+   } else {
+   
+}
+?>
 <html>
 <head>
 <title>Workouts</title>
