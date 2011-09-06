@@ -46,7 +46,7 @@
 <a href="updateweight.php" data-theme="b" id="weighin" data-role="button">Weigh-in</a>
 
 <?php
-   print '<h3>Exercises Completed</h3>';
+   print '<h3>Workouts Completed</h3>';
    print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search">';
    $containsData = false;
    foreach($sqlMgr->getWorkouts() as $workout){
