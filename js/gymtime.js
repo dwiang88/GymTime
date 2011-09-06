@@ -68,12 +68,14 @@ function WorkoutManager(id,date){
 	
 	WorkoutManager.prototype.muscleGroup = function(){
 		var selectedGroup = $(this).val();
+		$("#exercises").attr("disabled","disabled");
 		var exercises = jQuery.parseJSON(_this.dataQuery.getExercises(selectedGroup));
 		var html = '';
 		for(var x in exercises){
 			html += '<option value="' + exercises[x].ID + '" >' + exercises[x].Name + '</a>';
 		}
 		$("#exercises").html(html);
+		$("#exercises").removeAttr("disabled");
 		var myselect = $("select#exercises");
         myselect[0].selectedIndex = 3;
         myselect.selectmenu("refresh");
