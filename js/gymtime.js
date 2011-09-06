@@ -44,8 +44,11 @@ function WorkoutManager(id,date){
 	   $("#ExercisePanel").hide();	
 	   $("#CompleteSet").hide();
 	   $("#ExercisesContainer").hide();  
-	   this.refreshExercises();
-	   $("#completedexerciseslist").listview();
+	   //this.refreshExercises();
+	   //$("#completedexerciseslist").listview();
+	   $.mobile.changePage( "workout.php?WorkoutID=" + this.workoutId, {
+	        type: "post", 
+        });
 	   
 	   
 
@@ -140,6 +143,7 @@ function WorkoutManager(id,date){
          html += "<li><a href='javascript:workoutMgr.showCompletedExercise(" + idx + ");'>" + exerciseName + "</li>";
       }
       $("#ExercisesCompleted").html('<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li>' + html + '</ul>');
+      
 	  
       
     }
@@ -188,17 +192,18 @@ function WorkoutManager(id,date){
 		  
 			html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
 			html_inputs +='		<div>';
-			html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
-			html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
+			html_inputs +='			<input style="width:50px;" step="2.5" min="0" max="1000" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
+			html_inputs +='			<input style="width:50px;" min="0" max="25" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
 			html_inputs +='		</div>';
 			html_inputs +=' </div>';		
 		}
 		html_remove = '<a href="javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');" data-role="button" id="removesetbutton" data-icon="delete">Remove</a>';
 		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
 		
-		var html_complete = '<div id="CompleteSet"><a href="javascript:workoutMgr.completeSet();" data-role="button" id="completesetbutton" data-icon="check">Complete Set</a></div>';
+		//var html_complete = '<div id="CompleteSet"><a href="javascript:workoutMgr.completeSet();" data-role="button" id="completesetbutton" data-icon="check" data-theme="b">Complete Set</a></div>';
+		var html_complete = '<div id="CompleteSet"><input value="Complete Set" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b"></div><div id="SavedSet" style="display:none;">Saving...</div>';
 		$("#ExercisesContainer").html('<table><tr><td valign="top">' + html_exercise + '</td><td valign="center"><br><br>' + html_remove + '' + html_complete + '</td></tr></table>');
-
+        $(".workout-input").textinput();
 		//$("#ExercisesContainer").append(html_exercise);
 		this.addInputEventHandlers();
 	}
@@ -245,8 +250,13 @@ function WorkoutManager(id,date){
 			var weight = $("#setnumber" + setNumber + " .weight", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .weight", parent).val();
 			var reps = $("#setnumber" + setNumber + " .repetitions", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .repetitions", parent).val();
             if(reps != 0 && weight != 0){
+                $("#completesetbutton").button("disable");
+                $('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Saving Data &nbsp;');
+                $("#completesetbutton").button();
 		        var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
 				_this.workout.getExercises()[_this.workout.getExerciseIdIndex(id)].addSet(weight,reps,setNumber);
+				$('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Complete Set');
+				$("#completesetbutton").button("enable");
 		    }
 
 
@@ -393,9 +403,4 @@ function Set(reps, weight,setNumber){
 
 // Functions to call after page is loaded
 
-        $(document).bind('mobileinit',function(){
-		    
-		    	//$("#exercise_categories").change(workoutMgr.muscleGroup);
-	            //$('.button').css("font-size", "12").button();
-		});	
 

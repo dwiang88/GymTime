@@ -67,6 +67,9 @@
       print '<a href="#">Modify</a>';
       print '</li>';
    }
+   if($containsData == false){
+      print '<li>No workouts have been added. Click the Create New Workout button to start your new workout.</li>';
+   }
    print '</ul>'
 ?>
 </body>

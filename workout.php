@@ -70,7 +70,12 @@
    
 
    <div id="ExercisesCompletedContainer">
-      <div id="ExercisesCompleted"></div>
+      <div id="ExercisesCompleted">
+      <?php
+
+        print '<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li><li>You have no exercises. Please Start an Exercise to begin your set.</li></ul>';
+       ?>
+      </div>
    </div>
 </div>
 
@@ -117,5 +122,6 @@
 </table>
 
 </div>
+
 </body>
 </html>
