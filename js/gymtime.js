@@ -54,6 +54,7 @@ function WorkoutManager(id,date){
 	WorkoutManager.prototype.startExercise = function(){
 	   $("#StartExercisePanel").hide();
 	   $("#ExercisePanel").show();
+		   
 	}
 	
 	WorkoutManager.prototype.showCompletedExercise = function (id){
@@ -73,6 +74,9 @@ function WorkoutManager(id,date){
 			html += '<option value="' + exercises[x].ID + '" >' + exercises[x].Name + '</a>';
 		}
 		$("#exercises").html(html);
+		var myselect = $("select#exercises");
+        myselect[0].selectedIndex = 3;
+        myselect.selectmenu("refresh");
 		
 		
 	}
@@ -144,6 +148,8 @@ function WorkoutManager(id,date){
 			$("#CompleteSet").show();
 			$("#ExercisePanel").hide();
 			$("#ExercisesContainer").show();
+	        $("#completesetbutton").button();
+	        $("#removesetbutton").button();			
 		}
 	}
 	
@@ -222,7 +228,7 @@ function WorkoutManager(id,date){
 			
 			//$("#ExercisesContainer").append(html_exercise);
 		}
-		$("#ExercisesContainer").html('<table><tr><td valign="top">' + html_exercise + '</td><td><a href="javascript:workoutMgr.removeExercise(' + id +', '+  + ');">1Remove</a></td></tr></table>');
+		$("#ExercisesContainer").html('<table width="100%"><tr><td valign="top">' + html_exercise + '</td><td><a href="javascript:workoutMgr.removeExercise(' + id +', '+  + ');">1Remove</a></td></tr></table>');
 		this.addInputEventHandlers();
 	}
 	
@@ -275,8 +281,10 @@ function Workout(id, date) {
 	Workout.prototype.addExercise = function(name, id, sets){
 		var isValid;
 		if(this.exerciseExists(id)){
-			alert("IT EXISTS");
+			alert("This exercise has already been added.");
 			isValid = false;
+		} else if(name == "" || id == "") {
+		    alert('Select an exercise.');
 		} else {
 			this.exercises[this.exercises.length] = new ExerciseSets(name, id);
 			isValid = true;
@@ -380,7 +388,10 @@ function Set(reps, weight,setNumber){
 }
 
 // Functions to call after page is loaded
-$(document).ready(function(){
-	$("#exercise_categories").change(workoutMgr.muscleGroup);
-	$('.button').css("font-size", "12").button();
-});
+
+        $(document).bind('mobileinit',function(){
+		    
+		    	//$("#exercise_categories").change(workoutMgr.muscleGroup);
+	            //$('.button').css("font-size", "12").button();
+		});	
+

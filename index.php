@@ -1,9 +1,10 @@
 <?php session_start();
-   if(!isset($_SESSION['isLoggedIn'])){
+    require 'SQLManager.class.php';    
+    if(!isset($_SESSION['isLoggedIn'])){
         //header( 'Location: login.php');
-   } else {
-   
-}
+    } else {
+    }
+    $sqlMgr = new SQLManager();   
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,16 +24,44 @@
 </head>
 
 <body>
+<div data-role="header">
+    <h1>Gym Time</h1>
+</div>    
 <form action="dataquery.php?Action=AddWorkout" method="post">
-    <input type="submit" name="submit" value="New Workout" id="newworkout" /><br>
+<?php
+    $today = date("Y-m-d");
+    $id = $sqlMgr->getWorkoutID($today);
+    if($id == ""){
+?>
+    <input type="submit" name="submit" data-theme="b" value="Create New Workout" id="newworkout" />
+    
+    <?php
+    } else {
+    ?>
+    <input type="submit" name="submit" data-theme="b" value="Continue Workout" id="newworkout" />
+    <?php 
+        }
+    ?>
 </form>
+<a href="updateweight.php" data-theme="b" id="weighin" data-role="button">Weigh-in</a>
 
 <?php
-   print "v0.3";
-         
-
-
+   print '<h3>Exercises Completed</h3>';
+   print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search">';
+   $containsData = false;
+   foreach($sqlMgr->getWorkouts() as $workout){
+      $containsData = true;
+      $id = $workout['WorkoutID'];
+      print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
+      print "<li><a href=\"workout.php?WorkoutID=$id\">";
+      foreach($sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){
+        print $muscleGroup . " ";
+      }
+      print '</a>';
+      print '<a href="#">Modify</a>';
+      print '</li>';
+   }
+   print '</ul>'
 ?>
-
 </body>
 </html>

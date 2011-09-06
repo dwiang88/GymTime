@@ -29,6 +29,16 @@
             }
         }
         
+        public function getWorkouts(){
+            $sql = "SELECT * FROM Workouts ORDER BY Date DESC";
+            $data = array();
+            $result = mysql_query($sql, $this->con);
+            while($row = mysql_fetch_array($result)) {
+                $data[] = array("WorkoutID"=>$row['WorkoutID'], "Date"=>$row['Date'], "SetID"=>$row['SetID']);
+            }
+            return $data;             
+        }
+        
         public function addWorkout(){
             $today = date("Y-m-d");
             //print $today;
@@ -52,7 +62,7 @@
             return $date;              
         }
                 
-        private function getWorkoutID($date){
+        public function getWorkoutID($date){
             $id;
             $sql = "SELECT * FROM Workouts WHERE Date = \"$date\"";
             $result = mysql_query($sql, $this->con);
@@ -177,6 +187,15 @@
            
             
         }
+		public function getWorkoutMuscleGroups($setId){
+		    $sql = "SELECT DISTINCT Exercises.MuscleGroup FROM Sets,Exercises WHERE SetID = \"$setId\" AND Sets.ExerciseID = Exercises.ExerciseID;";
+            $result = mysql_query($sql, $this->con);
+            $data = array();
+            while($row = mysql_fetch_array($result)) {
+                $data[] = $row['MuscleGroup'];
+            }
+            return $data;		    
+		}
 		
 		public function removeSet($exerciseId,$setId){
 			mysql_query("DELETE FROM Sets WHERE ExerciseID=\"$exerciseId\" AND SetID =\"$setId\" ");

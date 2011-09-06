@@ -41,26 +41,33 @@
 ?>
 <div id="GymTimeContainer">
 <div data-role="header">
-		<h1>	
+		<h4>	
 		<?php 
 			print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		?>
-	</h1>
+	</h4>
 </div>
 
-<table>
+<table style="width:100%;">
 <tr>
 <td valign="top">
-<div id="StartExercisePanel">
-   <a href="javascript:workoutMgr.startExercise();" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a>
-   <a href="javascript:alert(2);" data-role="button" data-icon="check" data-theme="b">Finish Workout</a>
+<div id="StartExercisePanel" style="width:100%;">
+<fieldset class="ui-grid-a">
+	<div class="ui-block-a"><a href="javascript:workoutMgr.startExercise();" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a></div>
+	<div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish Workout</a></div>	   
+</fieldset>
+   
+   
 
    <div id="ExercisesCompletedContainer">
       <div id="ExercisesCompleted"></div>
    </div>
 </div>
+
 <div id="ExercisePanel" style="display:none;">
+<div data-role="fieldcontain">
 	   <div class="workout-set-exercise-types" style="">
+	   <label for="exercise_categories" class="select">Choose Muscle Group</label>
 		   <select name="exercise_categories" id="exercise_categories" >
 		   <option value="null" >All</option>
 		   <?php
@@ -70,7 +77,12 @@
 		   ?>		
 		   </select>
 	   </div>
-	   <div class="workout-set-exercise" style="width:35em;">
+</div>
+<script type="text/javascript">$("#exercise_categories").change(workoutMgr.muscleGroup);</script>
+
+	   <div class="workout-set-exercise">
+<div data-role="fieldcontain">
+	   <label for="exercises" class="select">Choose Exercise</label>
 		   <select name="exercises" id="exercises" >
 		   <?php
                foreach ($sqlMgr->getExercises(null) as $exercise){
@@ -79,8 +91,14 @@
 		   ?>
 		   </select>
 	   </div>
-	   <a href="javascript:workoutMgr.addExercise();" data-role="button" data-icon="delete">Start Set</a>
-	   <a href="javascript:workoutMgr.completeSet();" class="button">Return to Workout</a>
+</div>	   
+
+<fieldset class="ui-grid-a">
+	<div class="ui-block-a"> <a href="javascript:workoutMgr.addExercise();" data-theme="b" data-role="button" data-icon="check">Start Set</a></div>
+	<div class="ui-block-b"><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" class="button">Return to Workout</a></div>	   
+</fieldset>
+	  
+	   
 </div>
 <div id="ExercisesContainer"></div>
 
