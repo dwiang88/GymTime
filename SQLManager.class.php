@@ -1,4 +1,5 @@
 <?php
+session_start();
     class SQLManager {
         public $con = "";
         
@@ -30,7 +31,8 @@
         }
         
         public function getWorkouts(){
-            $sql = "SELECT * FROM Workouts ORDER BY Date DESC";
+            $userId = $_SESSION['UserID'];
+            $sql = "SELECT * FROM Workouts WHERE UserID=\"$userId\" ORDER BY Date DESC";
             $data = array();
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
@@ -42,8 +44,9 @@
         public function addWorkout(){
             $today = date("Y-m-d");
             //print $today;
+            $userId = $_SESSION['UserID'];
             if(!$this->workoutExists($today)){
-                $sql = "INSERT INTO Workouts (Date, SetID, UserID) VALUES ('$today', '-1', '1');";
+                $sql = "INSERT INTO Workouts (Date, SetID, UserID) VALUES ('$today', '-1', '$userId');";
                 mysql_query($sql);
                 $id = $this->getWorkoutID($today);
                 return $id;
@@ -54,7 +57,8 @@
         
         public function getWorkoutDate($id){
             $date;
-            $sql = "SELECT Date FROM Workouts WHERE WorkoutID = '$id'";
+            $userId = $_SESSION['UserID'];
+            $sql = "SELECT Date FROM Workouts WHERE WorkoutID = '$id' AND UserID=\"$userId\"";
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
                 $date = $row['Date'];
@@ -64,7 +68,8 @@
                 
         public function getWorkoutID($date){
             $id;
-            $sql = "SELECT * FROM Workouts WHERE Date = \"$date\"";
+            $userId = $_SESSION['UserID'];
+            $sql = "SELECT * FROM Workouts  WHERE Date = \"$date\" AND UserID=\"$userId\"";
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
                 $id = $row['WorkoutID'];
@@ -73,7 +78,8 @@
         }
         
         private function workoutExists($date){
-            $sql = "SELECT * FROM Workouts WHERE Date = \"$date\"";
+            $userId = $_SESSION['UserID'];
+            $sql = "SELECT * FROM Workouts WHERE UserID=\"$userId\" AND Date = \"$date\"";
             $result = mysql_query($sql, $this->con);
             $count = mysql_num_rows($result);
             if($count == 0){
@@ -159,7 +165,8 @@
         
         public function getWorkoutSetID($id){
             $setId;
-            $sql = "SELECT * FROM Workouts WHERE WorkoutID = \"$id\"";
+            $userId = $_SESSION['UserID'];
+            $sql = "SELECT * FROM Workouts WHERE WorkoutID = \"$id\" AND UserID=\"$userId\"";
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
                 $setId = $row['SetID'];
@@ -213,6 +220,17 @@
             }
             return $exerciseIds;         
         }
+        public function validateUser($username, $pw){
+            $userId = "-1";
+            $sql = "SELECT UserID FROM Users WHERE Username=\"$username\" AND Password=\"$pw\"";
+            $result = mysql_query($sql, $this->con);
+            while($row = mysql_fetch_array($result)) {
+                $userId = $row['UserID'];
+            }
+            return $userId;            
+        }        
+        
+
 
     }
 
