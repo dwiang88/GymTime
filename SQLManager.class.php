@@ -90,7 +90,6 @@ session_start();
         }
         
         public function getExercises($muscleGroup){
-		
             $data = array();
             $sql = $muscleGroup == null ? "SELECT * FROM Exercises" : "SELECT * FROM Exercises WHERE MuscleGroup =\"$muscleGroup\"";
             $result = mysql_query($sql, $this->con);
@@ -231,9 +230,7 @@ session_start();
                 $userId = $row['UserID'];
             }
             return $userId;            
-        }        
-        
-
+        }
 
     }
 
