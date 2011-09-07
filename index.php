@@ -60,9 +60,18 @@
       $id = $workout['WorkoutID'];
       print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
       print "<li><a href=\"workout.php?WorkoutID=$id\">";
-      foreach($sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){
-        print $muscleGroup . " ";
+      $x = 1;
+      $containsSets = false;
+      foreach($data = $sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){
+        $containsSets = true;
+        $count = count($data);
+        print $muscleGroup . ($x < $count ? ", " : "") ;
+        $x++;
       }
+      if(!$containsSets){
+        print "You have not started any exercise sets. Click here to begin your workout.";
+      }
+      
       print '</a>';
       print '<a href="#">Modify</a>';
       print '</li>';

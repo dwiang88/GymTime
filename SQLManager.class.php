@@ -198,8 +198,11 @@ session_start();
 		    $sql = "SELECT DISTINCT Exercises.MuscleGroup FROM Sets,Exercises WHERE SetID = \"$setId\" AND Sets.ExerciseID = Exercises.ExerciseID;";
             $result = mysql_query($sql, $this->con);
             $data = array();
+            $x = 1;
             while($row = mysql_fetch_array($result)) {
+                $cnt = count($row);
                 $data[] = $row['MuscleGroup'];
+                $x++;
             }
             return $data;		    
 		}

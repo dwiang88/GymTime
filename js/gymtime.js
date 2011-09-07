@@ -44,14 +44,8 @@ function WorkoutManager(id,date){
 	   $("#ExercisePanel").hide();	
 	   $("#CompleteSet").hide();
 	   $("#ExercisesContainer").hide();  
-	   //this.refreshExercises();
-	   //$("#completedexerciseslist").listview();
-	   $.mobile.changePage( "workout.php?WorkoutID=" + this.workoutId, {
-	        type: "post", 
-        });
-	   
-	   
-
+	   this.refreshExercises();
+	   $("#completedexerciseslist").listview();
 	}
 	
 	WorkoutManager.prototype.startExercise = function(){
@@ -66,7 +60,6 @@ function WorkoutManager(id,date){
 	   $("#ExercisesContainer").show();
 	   $("#completesetbutton").button();
 	   $("#removesetbutton").button();	   
-	   
 	}
 	
 	WorkoutManager.prototype.muscleGroup = function(){
@@ -84,26 +77,23 @@ function WorkoutManager(id,date){
 		var myselect = $("select#exercises");
         myselect[0].selectedIndex = 3;
         myselect.selectmenu("refresh");
-		
-		
 	}
 	
 	WorkoutManager.prototype.cycle = function(motion){
-			var indexCount = this.workout.getExercises().length - 1;
-			if(motion == "next"){
-				if(this.currentExerciseId < indexCount){
-					this.addToScreen(this.currentExerciseId + 1);
-				} else {
-					this.addToScreen(0);
-				}
-			} else if(motion == "previous"){
-				if(this.currentExerciseId > 0){
-					this.addToScreen(this.currentExerciseId - 1);
-				} else {
-					this.addToScreen(indexCount);
-				}
+		var indexCount = this.workout.getExercises().length - 1;
+		if(motion == "next"){
+			if(this.currentExerciseId < indexCount){
+				this.addToScreen(this.currentExerciseId + 1);
+			} else {
+				this.addToScreen(0);
 			}
-			
+		} else if(motion == "previous"){
+			if(this.currentExerciseId > 0){
+				this.addToScreen(this.currentExerciseId - 1);
+			} else {
+				this.addToScreen(indexCount);
+			}
+		}	
 	}
 
 
@@ -119,6 +109,7 @@ function WorkoutManager(id,date){
 	    for(var x in exercises){     
 	        this.loadExercise(exercises[x].Name,exercises[x].ID, exercises[x].Set);
 	    }
+	    this.refreshExercises();
 	}
 	WorkoutManager.prototype.loadExercise = function(name, id, sets){
 	    this.workout.addExercise(name,id);
@@ -136,13 +127,16 @@ function WorkoutManager(id,date){
     }
     WorkoutManager.prototype.refreshExercises = function(){
     var html = '';
+    var isEmpty = true;
+    var isEmptyMsg = "<li>You have no exercises. Click Start Exercise to begin your workout sets.</li>";
       for(var x in this.workout.getExercises()){
+        isEmpty = false;
          var exerciseName = this.workout.getExercises()[x].getExerciseName();
          var id = this.workout.getExercises()[x].getExerciseID();
          var idx = this.workout.getExerciseIdIndex(id);
          html += "<li><a href='javascript:workoutMgr.showCompletedExercise(" + idx + ");'>" + exerciseName + "</li>";
       }
-      $("#ExercisesCompleted").html('<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li>' + html + '</ul>');
+      $("#ExercisesCompleted").html('<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li>' + (isEmpty == true ? isEmptyMsg : html) + '</ul>');
       
 	  
       
@@ -162,15 +156,14 @@ function WorkoutManager(id,date){
 	}
 	
 	WorkoutManager.prototype.removeExercise = function(exerciseId,setId){
+	    $.mobile.showPageLoadingMsg();
 		var rowsRemoved = this.dataQuery.removeSet(exerciseId,setId);
-		
+		$.mobile.hidePageLoadingMsg();
 		this.workout.removeExercise(exerciseId);
-      this.completeSet();
+        this.completeSet();
 		// Remove the element with class value of workout-set and id of exerciseId
 		//$(".workout-set#" + exerciseId).remove();
 		//this.addToScreen(0);
-		
-		
 	}
 
 	this.addToScreen = function(x){

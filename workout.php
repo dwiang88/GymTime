@@ -44,7 +44,6 @@
 		print	"$(document).ready(function(){ workoutMgr.setSetId('" . $setId . "');});";
         $data = $sqlMgr->getExerciseData($setId);
         print   "$(document).ready(function(){workoutMgr.load('" . $data  . "');});";
-		
     }
     print '</script>';
 
@@ -71,10 +70,7 @@
 
    <div id="ExercisesCompletedContainer">
       <div id="ExercisesCompleted">
-      <?php
 
-        print '<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li><li>You have no exercises. Please Start an Exercise to begin your set.</li></ul>';
-       ?>
       </div>
    </div>
 </div>
