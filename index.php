@@ -59,7 +59,7 @@
       $containsData = true;
       $id = $workout['WorkoutID'];
       print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
-      print "<li><a href=\"workout.php?WorkoutID=$id\">";
+      print "<li><a rel=\"external\" href=\"workout.php?WorkoutID=$id\">";
       $x = 1;
       $containsSets = false;
       foreach($data = $sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){

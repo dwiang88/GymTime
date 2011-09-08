@@ -136,7 +136,7 @@ function WorkoutManager(id,date){
          var idx = this.workout.getExerciseIdIndex(id);
          html += "<li><a href='javascript:workoutMgr.showCompletedExercise(" + idx + ");'>" + exerciseName + "</li>";
       }
-      $("#ExercisesCompleted").html('<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li>' + (isEmpty == true ? isEmptyMsg : html) + '</ul>');
+      $("#ExercisesCompleted").html('<br><ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li>' + (isEmpty == true ? isEmptyMsg : html) + '</ul>');
       
 	  
       
@@ -151,7 +151,7 @@ function WorkoutManager(id,date){
 			$("#ExercisePanel").hide();
 			$("#ExercisesContainer").show();
 	        $("#completesetbutton").button();
-	        $("#removesetbutton").button();			
+	        $("#removesetbutton").button();
 		}
 	}
 	
