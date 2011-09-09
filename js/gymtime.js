@@ -3,6 +3,13 @@
 
 
 
+
+function showWorkout(id){
+    $.mobile.changePage( "workout.php?WorkoutID=" + id, {
+	    type: "post",
+	    reloadPage: true
+    });
+}
 // JS Objects
 function DataQuery(){
 	var QueryType = {Move: "Move", Question :"Question"};
@@ -153,7 +160,7 @@ function WorkoutManager(id,date){
 	  
       
     }
-    
+
 	WorkoutManager.prototype.addExercise = function(){
 		var isValid = this.workout.addExercise(this.getExercise().Name,this.getExercise().ID);
 		//this.refresh();

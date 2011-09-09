@@ -18,9 +18,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="css/gymtime.css" /> 
   <script src="js/gymtime.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
 <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
   <!--
    <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
@@ -30,9 +30,11 @@
 
 <body>
 
+ <div data-role="page" id="gymtime-home">
 <div data-role="header">
     <h1>Gym Time</h1>
 </div>    
+ <div data-role="content">
 <form action="dataquery.php?Action=AddWorkout" method="post">
 
 <?php
@@ -57,13 +59,14 @@
 
 <?php
    print '<h3>Workouts Completed</h3>';
-   print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search">';
+   print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search" id="completedworkoutslist">';
    $containsData = false;
    foreach($sqlMgr->getWorkouts() as $workout){
       $containsData = true;
       $id = $workout['WorkoutID'];
       print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
-      print "<li><a rel=\"external\" href=\"workout.php?WorkoutID=$id\">";
+      print "<li><a data-ajax=\"false\" href=\"workout.php?WorkoutID=$id\">";
+//print "<li><a href=\"javascript:showWorkout($id);\">";
       $x = 1;
       $containsSets = false;
       foreach($data = $sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){
@@ -84,6 +87,9 @@
       print '<li>No workouts have been added. Click the Create New Workout button to start your new workout.</li>';
    }
    print '</ul>'
+   
 ?>
+</div>
+</div>
 </body>
 </html>
