@@ -48,6 +48,9 @@ if($action == "GetExercises"){
 	$exercises = $sqlMgr->getExercises($muscleGroup);
 	print json_encode($exercises);
 }
+if($action == "GetExerciseHistory"){
+    print "Sweet";
+}
 
 
 

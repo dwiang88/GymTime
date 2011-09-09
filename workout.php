@@ -56,63 +56,90 @@
 	                        <div class="ui-block-a"><a href="#exercise-selection" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a></div>
 	                        <div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish Workout</a></div>	   
                         </fieldset>
-                        <div>Blah</div>
                         <div id="ExercisesCompleted"></div>
                 </div>    
             </div>
          <! -- Exercises Selection -->
-         <div data-role="page" id="exercise-selection">   
-            <div data-role="content">  
+         <div data-role="page" id="exercise-selection">  
+         <script>
+            $('#exercise-selection').live('pagecreate',function(event){
+                $.mobile.selectmenu.prototype.options.nativeMenu = false;
+                
+            });  
+                   
+        
+         </script>
                 <div data-role="header">
 	                <h4>	
 		                <?php 
 			                print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		                ?>
 	                </h4>        
-	            </div>        
-                    <div id="ExercisePanel">
-                    <div data-role="fieldcontain">
-	                       <div class="workout-set-exercise-types" style="">
-	                       <label for="exercise_categories" class="select">Choose Muscle Group</label>
-		                       <select name="exercise_categories" id="exercise_categories" >
-		                       <option value="null" >All</option>
-		                       <?php
-                                   foreach ($sqlMgr->getExerciseCategories() as $exercise){
-                                       print '<option value="' . $exercise["MuscleGroup"] .'">' . $exercise["MuscleGroup"] .'</option>';
-                                   }           
-		                       ?>		
-		                       </select>
-	                       </div>
-                    </div>
-                    <script type="text/javascript">$("#exercise_categories").change(workoutMgr.muscleGroup);</script>
+	            </div>          
+            <div data-role="content">
+            <table align="center" style="width:100%;">
+            <tr>
+            <td align="center">          
+                <select name="exercise_categories" id="exercise_categories">
+                <option data-placeholder="true">Select Muscle Group</option>
+                <option value="null" >All</option>
+                <?php
+                   foreach ($sqlMgr->getExerciseCategories() as $exercise){
+                       print '<option value="' . $exercise["MuscleGroup"] .'">' . $exercise["MuscleGroup"] .'</option>';
+                   }           
+                ?>		
+                </select>
+                <script type="text/javascript">$("#exercise_categories").change(workoutMgr.muscleGroup);</script>
 
-	                       <div class="workout-set-exercise">
-                    <div data-role="fieldcontain">
-	                       <label for="exercises" class="select">Choose Exercise</label>
-		                       <select name="exercises" id="exercises" >
-		                       <?php
-                                   foreach ($sqlMgr->getExercises(null) as $exercise){
-                                       print '<option value="' . $exercise["ID"] .'">' . $exercise["Name"] .'</option>';
-                                   }           
-		                       ?>
-		                       </select>
-	                       </div>
-                    </div>	   
 
-                    <fieldset class="ui-grid-a">
-	                    <div class="ui-block-a"> <a href="#set-input" data-theme="b" data-role="button" data-icon="check">Start Set</a></div>
-	                    <div class="ui-block-b"><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" class="button">Return to Workout</a></div>	   
-                    </fieldset>
-                    </div>
+                <select name="exercises" id="exercises" >
+                <option data-placeholder="true">Select Exercise</option>
+                <?php
+                   foreach ($sqlMgr->getExercises(null) as $exercise){
+                       print '<option value="' . $exercise["ID"] .'">' . $exercise["Name"] .'</option>';
+                   }           
+                ?>
+                </select>
+
+                <fieldset class="ui-grid-a">
+                <div class="ui-block-a"> <a href="javascript:workoutMgr.addExercise();" data-theme="b" data-role="button" data-icon="check">Start Set</a></div>
+                <div class="ui-block-b"><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" class="button">Return to Workout</a></div>	   
+                </fieldset> 
+             </td>
+             </tr>
+             </table>   
            </div>
        </div>
+       
  <! -- Set -->
         <div data-role="page" id="set-input">  
-         <script>alert(1);</script> 
+               <div data-role="header">
+	                <h4><span id="set-input-title"></span></h4> 
+	            </div>        
             <div data-role="content">  
                 <div id="ExercisesContainer"></div>
             </div>
+            <div  data-role="footer" data-position="fixed"> 
+	            <h4>
+	            <input value="Complete" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b">
+	            <a href="" data-role="button" id="removesetbutton" data-icon="delete">Remove</a>
+	            <a href="#set-input-history"  data-rel="dialog" data-theme="b" data-role="button" id="removesetbutton" data-icon="delete">History</a>
+	            </h4> 
+            </div>            
          </div>
+         
+        <div data-role="page" id="set-input-history">  
+               <div data-role="header">
+	                <h4>Workout History</h4> 
+	            </div>        
+	            <script type="text/javascript">
+                    $('#set-input-history').live('pagecreate',function(event){
+                      workoutMgr.getExerciseHistory();
+                    });
+	            </script>
+            <div data-role="content" id="set-input-history-content">
+            </div>           
+         </div>         
 
 </body>
 </html>

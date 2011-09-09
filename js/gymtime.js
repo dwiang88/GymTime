@@ -7,6 +7,11 @@
 function DataQuery(){
 	var QueryType = {Move: "Move", Question :"Question"};
 	
+	
+	DataQuery.prototype.getExerciseHistory = function(){
+	    return this.queryData({Action: "GetExerciseHistory"});
+	}
+	
 	DataQuery.prototype.removeSet = function(exerciseId, setId){
 		return this.queryData({Action: "RemoveSet", SetId: setId, ExerciseId:exerciseId});
 	}
@@ -39,27 +44,34 @@ function WorkoutManager(id,date){
 	// Used for instances where a handle to the JS object is needed inside a jQuery function. jQuery overrides this to refer to the current DOM element.
 	var _this = this; 
 	
+	WorkoutManager.prototype.getExerciseHistory = function(){
+	    var result = this.dataQuery.getExerciseHistory();
+	    
+	    $("#set-input-history-content").html(result);
+	}
+	
 	WorkoutManager.prototype.completeSet = function(){
-	   $("#StartExercisePanel").attr("style", "");
-	   $("#ExercisePanel").hide();	
-	   $("#CompleteSet").hide();
-	   $("#ExercisesContainer").hide();  
+	   //$("#StartExercisePanel").attr("style", "");
+	   //$("#ExercisePanel").hide();	
+	   //$("#CompleteSet").hide();
+	   //$("#ExercisesContainer").hide();  
+	   $.mobile.changePage( $('#exercises-completed'), { transition: "slideup"} );	
 	   this.refreshExercises();
 	   $("#completedexerciseslist").listview();
 	}
 	
 	WorkoutManager.prototype.startExercise = function(){
-	   $("#StartExercisePanel").hide();
-	   $("#ExercisePanel").show();
+	   //$("#StartExercisePanel").hide();
+	   //$("#ExercisePanel").show();
 		   
 	}
 	
 	WorkoutManager.prototype.showCompletedExercise = function (id){
 	   this.addToScreen(id);
-	   $("#StartExercisePanel").hide();
-	   $("#ExercisesContainer").show();
 	   $("#completesetbutton").button();
-	   $("#removesetbutton").button();	   
+	   $("#removesetbutton").button();	 
+	   $.mobile.changePage( $("#set-input"), { transition: "slideup"} ); 
+	    
 	}
 	
 	WorkoutManager.prototype.muscleGroup = function(){
@@ -147,11 +159,10 @@ function WorkoutManager(id,date){
 		//this.refresh();
 		if(isValid){
 			this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
-			$("#CompleteSet").show();
-			$("#ExercisePanel").hide();
-			$("#ExercisesContainer").show();
 	        $("#completesetbutton").button();
 	        $("#removesetbutton").button();
+	        $.mobile.changePage( $('#set-input'), { transition: "slideup"} );
+	        
 		}
 	}
 	
@@ -175,29 +186,22 @@ function WorkoutManager(id,date){
 		var name = this.workout.getExercises()[x].getExerciseName();
 		var id = this.workout.getExercises()[x].getExerciseID();
 		var sets = this.workout.getExercises()[x].getSets();
-
-		
-		html_title = '<div class="workout-set-title"><h3>' + name  + '</h3></div>';
-		html_inputs = '';
+		$("#set-input-title").text(name);
 
 		for(var i =0; i < 4; i++){
 			var setNum = i + 1;
-		  
 			html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
 			html_inputs +='		<div>';
-			html_inputs +='			<input style="width:50px;" step="2.5" min="0" max="1000" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
-			html_inputs +='			<input style="width:50px;" min="0" max="25" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
+			html_inputs +='			<input style="width:70px;" step="2.5" min="0" max="1000" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
+			html_inputs +='			<input style="width:70px;" min="0" max="25" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
 			html_inputs +='		</div>';
 			html_inputs +=' </div>';		
 		}
-		html_remove = '<a href="javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');" data-role="button" id="removesetbutton" data-icon="delete">Remove</a>';
+		$("#removesetbutton").attr("href", 'javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');');
 		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
-		
-		//var html_complete = '<div id="CompleteSet"><a href="javascript:workoutMgr.completeSet();" data-role="button" id="completesetbutton" data-icon="check" data-theme="b">Complete Set</a></div>';
-		var html_complete = '<div id="CompleteSet"><input value="Complete Set" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b"></div><div id="SavedSet" style="display:none;">Saving...</div>';
-		$("#ExercisesContainer").html('<table><tr><td valign="top">' + html_exercise + '</td><td valign="center"><br><br>' + html_remove + '' + html_complete + '</td></tr></table>');
+
+		$("#ExercisesContainer").html('<table align="center" style="width:100%;"><tr><td valign="top" align="center">' + html_exercise + '</td></tr></table>');
         $(".workout-input").textinput();
-		//$("#ExercisesContainer").append(html_exercise);
 		this.addInputEventHandlers();
 	}
 	

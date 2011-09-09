@@ -34,12 +34,13 @@
     <h1>Gym Time</h1>
 </div>    
 <form action="dataquery.php?Action=AddWorkout" method="post">
+
 <?php
     $today = date("Y-m-d");
     $id = $sqlMgr->getWorkoutID($today);
     if($id == ""){
 ?>
-    <input type="submit" name="submit" data-theme="b" value="Create New Workout" id="newworkout" />
+    <input type="submit" name="submit" data-theme="b" data-icon="plus" value="Create New Workout" id="newworkout" />
     
     <?php
     } else {
@@ -48,8 +49,11 @@
     <?php 
         }
     ?>
+    </div>
+
 </form>
-<a href="updateweight.php" data-theme="b" id="weighin" data-role="button">Weigh-in</a>
+
+
 
 <?php
    print '<h3>Workouts Completed</h3>';
