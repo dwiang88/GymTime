@@ -23,20 +23,17 @@
 ?>
 </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" rel="stylesheet" href="css/gymtime.css" /> 
-	<script type="text/javascript" src="js/gymtime.js"></script> 
+  <link type="text/css" rel="stylesheet" href="css/gymtime.css" />  
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
 	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="js/gymtime.js"></script>
 	<script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>  
 </head>
 
 <body>
         <!-- Exercises Completed -->
             <div data-role="page" id="exercises-completed">
-            $('#exercises-completed').live('pagecreate',function(event){
-                alert(1);
-                
-            });            
+			</script> 
                 <div data-role="header">
 	                <h4>	
 		                <?php 
@@ -50,9 +47,9 @@
                         print   "var workoutMgr = new WorkoutManager('" . $workoutId . "','" . $sqlMgr->getWorkoutDate($workoutId)  . "');";
                         if($sqlMgr->getWorkoutSetID($workoutId) != -1){
                             $setId = $sqlMgr->getWorkoutSetID($workoutId);
-		                    print	"$(document).ready(function(){ workoutMgr.setSetId('" . $setId . "');});";
+		                    print	"$('#exercises-completed').live('pagecreate',function(event){ workoutMgr.setSetId('" . $setId . "');});";
                             $data = $sqlMgr->getExerciseData($setId);
-                            print   "$(document).ready(function(){workoutMgr.load('" . $data  . "');});";
+                            print   "$('#exercises-completed').live('pagecreate',function(event){workoutMgr.load('" . $data  . "');});";
                         }
                         print '</script>';
                     ?>       
@@ -67,7 +64,7 @@
          <div data-role="page" id="exercise-selection">  
          <script>
             $('#exercise-selection').live('pagecreate',function(event){
-                $.mobile.selectmenu.prototype.options.nativeMenu = false;
+                //$.mobile.selectmenu.prototype.options.nativeMenu = false;
                 
             });  
                    

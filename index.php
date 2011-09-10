@@ -65,7 +65,7 @@
       $containsData = true;
       $id = $workout['WorkoutID'];
       print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
-      print "<li><a data-ajax=\"false\" href=\"workout.php?WorkoutID=$id\">";
+      print "<li><a   data-ajax=\"false\" href=\"workout.php?WorkoutID=$id\">";
 //print "<li><a href=\"javascript:showWorkout($id);\">";
       $x = 1;
       $containsSets = false;

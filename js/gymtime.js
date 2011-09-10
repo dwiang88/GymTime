@@ -6,8 +6,7 @@
 
 function showWorkout(id){
     $.mobile.changePage( "workout.php?WorkoutID=" + id, {
-	    type: "post",
-	    reloadPage: true
+	    type: "post"
     });
 }
 // JS Objects
