@@ -11,6 +11,7 @@
     }
     $sqlMgr = new SQLManager();   
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,75 +22,30 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
 <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
-  <!--
-   <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
-   <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-   <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script> 
-   -->
 </head>
 
 <body>
-
- <div data-role="page" id="gymtime-home">
-<div data-role="header">
-    <h1>Gym Time</h1>
-</div>    
- <div data-role="content">
-<form action="dataquery.php?Action=AddWorkout" method="post">
-
-<?php
-    $today = date("Y-m-d");
-    $id = $sqlMgr->getWorkoutID($today);
-    if($id == ""){
-?>
-    <input type="submit" name="submit" data-theme="b" data-icon="plus" value="Create New Workout" id="newworkout" />
-    
-    <?php
-    } else {
-    ?>
-    <input type="submit" name="submit" data-theme="b" value="Continue Workout" id="newworkout" />
-    <?php 
-        }
-    ?>
-    </div>
-
-</form>
-
-
-
-<?php
-   print '<h3>Workouts Completed</h3>';
-   print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search" id="completedworkoutslist">';
-   $containsData = false;
-   foreach($sqlMgr->getWorkouts() as $workout){
-      $containsData = true;
-      $id = $workout['WorkoutID'];
-      print '<li data-role="list-divider">'. date("l F j, Y",strtotime($workout['Date'])) .'</li>';
-      print "<li><a   data-ajax=\"false\" href=\"workout.php?WorkoutID=$id\">";
-//print "<li><a href=\"javascript:showWorkout($id);\">";
-      $x = 1;
-      $containsSets = false;
-      foreach($data = $sqlMgr->getWorkoutMuscleGroups($workout['SetID']) as $muscleGroup){
-        $containsSets = true;
-        $count = count($data);
-        print $muscleGroup . ($x < $count ? ", " : "") ;
-        $x++;
-      }
-      if(!$containsSets){
-        print "You have not started any exercise sets. Click here to begin your workout.";
-      }
-      
-      print '</a>';
-      print '<a href="#">Modify</a>';
-      print '</li>';
-   }
-   if($containsData == false){
-      print '<li>No workouts have been added. Click the Create New Workout button to start your new workout.</li>';
-   }
-   print '</ul>'
-   
-?>
-</div>
-</div>
+	<div data-role="page" id="gymtime-home">
+		<div data-role="header">
+			<h1>Gym Time</h1>
+		</div>    
+		 <div data-role="content">
+			<?php
+				$today = date("Y-m-d");
+				$id = $sqlMgr->getWorkoutID($today);
+				if($id == ""){
+			?>
+		   <a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a>
+			
+			<?php
+			} else {
+			?>
+			<a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Continue Workout</a>
+			<?php 
+				}
+			?>
+			<a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Completed Workouts</a>
+		</div>
+	</div>
 </body>
 </html>
