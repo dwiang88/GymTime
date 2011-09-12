@@ -40,8 +40,10 @@
         if($result != -1){
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['UserID'] = $result;
+            $sqlMgr->logLogin("SUCCESS", $result);
             header( 'Location: index.php');
         } else {
+            $sqlMgr->logLogin("FAILED", '-1');
             print 'You have provided an incorrect username/password. Please try again.';
         }
         
