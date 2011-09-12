@@ -30,9 +30,11 @@
     <h1>Completed Workouts</h1>
 </div>    
  <div data-role="content">
+ <table width="100%"><tr><td width="100%">
 <?php
    print '<h3>Workouts Completed</h3>';
-   print '<ul data-role="listview" data-inset="true" data-split-theme="b" data-split-icon="search" id="completedworkoutslist">';
+   print '<br>';
+   print '<ul data-role="listview" data-split-theme="b" data-split-icon="search" id="completedworkoutslist" >';
    $containsData = false;
    foreach($sqlMgr->getWorkouts() as $workout){
       $containsData = true;
@@ -62,6 +64,10 @@
    print '</ul>'
    
 ?>
+</td>
+</tr>
+</table>
+
 </div>
 </div>
 

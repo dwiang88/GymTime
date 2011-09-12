@@ -10,6 +10,7 @@
         }
     }
     $sqlMgr = new SQLManager();   
+	
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@
 				$id = $sqlMgr->getWorkoutID($today);
 				if($id == ""){
 			?>
-		   <a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a>
+		   <a href="dataquery.php?Action=AddWorkout" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a>
 			
 			<?php
 			} else {
@@ -44,7 +45,7 @@
 			<?php 
 				}
 			?>
-			<a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Completed Workouts</a>
+			<a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="search"  id="newworkout">Completed Workouts</a>
 		</div>
 	</div>
 </body>

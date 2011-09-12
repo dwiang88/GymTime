@@ -33,7 +33,7 @@
 <body>
         <!-- Exercises Completed -->
             <div data-role="page" id="exercises-completed">
-			</script> 
+			
                 <div data-role="header">
 	                <h4>	
 		                <?php 
@@ -57,7 +57,12 @@
 	                        <div class="ui-block-a"><a href="#exercise-selection" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a></div>
 	                        <div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish Workout</a></div>	   
                         </fieldset>
-                        <div id="ExercisesCompleted"></div>
+                        <div id="ExercisesCompleted">
+						<?php
+							print '<br>';
+							print '<ul data-role="listview" data-theme="g" id="completedexerciseslist"><li data-role="list-divider">Completed Exercises</li><li>You have no exercises. Click Start Exercise to begin your workout sets.</li></ul>';
+						?>
+						</div>
                 </div>    
             </div>
          <! -- Exercises Selection -->
@@ -68,7 +73,6 @@
                 
             });  
                    
-        
          </script>
                 <div data-role="header">
 	                <h4>	
@@ -92,16 +96,15 @@
                 </select>
                 <script type="text/javascript">$("#exercise_categories").change(workoutMgr.muscleGroup);</script>
 
-
-                <select name="exercises" id="exercises" >
-                <option data-placeholder="true">Select Exercise</option>
-                <?php
-                   foreach ($sqlMgr->getExercises(null) as $exercise){
-                       print '<option value="' . $exercise["ID"] .'">' . $exercise["Name"] .'</option>';
-                   }           
-                ?>
-                </select>
-
+				<div id="exercises-select-container">
+					<select name="exercises" id="exercises" >
+					<?php
+					   //foreach ($sqlMgr->getExercises(null) as $exercise){
+						//   print '<option value="' . $exercise["ID"] .'">' . $exercise["Name"] .'</option>';
+					   //}           
+					?>
+					</select>
+				</div>
                 <fieldset class="ui-grid-a">
                 <div class="ui-block-a"> <a href="javascript:workoutMgr.addExercise();" data-theme="b" data-role="button" data-icon="check">Start Set</a></div>
                 <div class="ui-block-b"><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" class="button">Return to Workout</a></div>	   
@@ -114,8 +117,10 @@
        
  <! -- Set -->
         <div data-role="page" id="set-input">  
-               <div data-role="header">
-	                <h4><span id="set-input-title"></span></h4> 
+               <div data-role="header" data-position="inline" id="set-input-header">
+				<a href="javascript:workoutMgr.completeSet();"  data-icon="back" data-theme="b" >Go Back</a>
+	                <h4 id="set-input-title">Hi</h4> 
+					<a href="javascript:workoutMgr.completeSet();" class="remove" data-icon="delete" data-theme="b" >Remove</a>
 	            </div>        
             <div data-role="content">  
                 <div id="ExercisesContainer"></div>
@@ -123,7 +128,6 @@
             <div  data-role="footer" data-position="fixed"> 
 	            <h4>
 	            <input value="Complete" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b">
-	            <a href="" data-role="button" id="removesetbutton" data-icon="delete">Remove</a>
 	            <a href="#set-input-history"  data-rel="dialog" data-theme="b" data-role="button" id="removesetbutton" data-icon="delete">History</a>
 	            </h4> 
             </div>            

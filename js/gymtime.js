@@ -75,7 +75,7 @@ function WorkoutManager(id,date){
 	WorkoutManager.prototype.showCompletedExercise = function (id){
 	   this.addToScreen(id);
 	   $("#completesetbutton").button();
-	   $("#removesetbutton").button();	 
+	   $(".removesetbutton").button();	 
 	   $.mobile.changePage( $("#set-input"), { transition: "slideup"} ); 
 	    
 	}
@@ -89,12 +89,12 @@ function WorkoutManager(id,date){
 		for(var x in exercises){
 			html += '<option value="' + exercises[x].ID + '" >' + exercises[x].Name + '</a>';
 		}
+		$("#exercises-select-container").html('<select id="exercises" name="exercises">' + html + '</select>');
 		$("#exercises").html(html);
 		$("#exercises").removeAttr("disabled");
 		$.mobile.pageLoading(true);
-		var myselect = $("select#exercises");
-        myselect[0].selectedIndex = 3;
-        myselect.selectmenu("refresh");
+		$('#exercises').selectmenu();
+	
 	}
 	
 	WorkoutManager.prototype.cycle = function(motion){
@@ -166,7 +166,7 @@ function WorkoutManager(id,date){
 		if(isValid){
 			this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
 	        $("#completesetbutton").button();
-	        $("#removesetbutton").button();
+	        $(".removesetbutton").button();
 	        $.mobile.changePage( $('#set-input'), { transition: "slideup"} );
 	        
 		}
@@ -203,7 +203,7 @@ function WorkoutManager(id,date){
 			html_inputs +='		</div>';
 			html_inputs +=' </div>';		
 		}
-		$("#removesetbutton").attr("href", 'javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');');
+		$("#set-input-header .remove").attr("href", 'javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');');
 		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
 
 		$("#ExercisesContainer").html('<table align="center" style="width:100%;"><tr><td valign="top" align="center">' + html_exercise + '</td></tr></table>');
