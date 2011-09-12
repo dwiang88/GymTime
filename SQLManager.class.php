@@ -101,7 +101,7 @@ session_start();
         
         public function getExercises($muscleGroup){
             $data = array();
-            $sql = $muscleGroup == null ? "SELECT * FROM Exercises ORDER BY MuscleGroup ASC" : "SELECT * FROM Exercises WHERE MuscleGroup =\"$muscleGroup\" ORDER BY MuscleGroup ASC";
+            $sql = $muscleGroup == null ? "SELECT * FROM Exercises ORDER BY Name ASC" : "SELECT * FROM Exercises WHERE MuscleGroup =\"$muscleGroup\" ORDER BY Name ASC";
             $result = mysql_query($sql, $this->con);
             while($row = mysql_fetch_array($result)) {
                 //print $row['Name'];

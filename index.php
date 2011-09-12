@@ -41,7 +41,7 @@
 			<?php
 			} else {
 			?>
-			<a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Continue Workout</a>
+			<a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Continue Today's Workout</a>
 			<?php 
 				}
 			?>

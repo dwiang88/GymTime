@@ -197,9 +197,9 @@ function WorkoutManager(id,date){
 		for(var i =0; i < 4; i++){
 			var setNum = i + 1;
 			html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
-			html_inputs +='		<div>';
-			html_inputs +='			<input style="width:70px;" step="2.5" min="0" max="1000" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
-			html_inputs +='			<input style="width:70px;" min="0" max="25" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
+			html_inputs +='		<div width="100%;">';
+			html_inputs +='			<input style="width:50px;display:inline;" step="2.5" min="0" max="1000" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
+			html_inputs +='			<input style="width:40px;display:inline;" min="0" max="25" type="number" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
 			html_inputs +='		</div>';
 			html_inputs +=' </div>';		
 		}
@@ -229,7 +229,7 @@ function WorkoutManager(id,date){
 		        var setNum = i + 1;
 		      
 			    html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
-			    html_inputs +='		<div>';
+			    html_inputs +='		<div style="width:100%;">';
 			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
 			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
 			    html_inputs +='		</div>';
@@ -240,7 +240,7 @@ function WorkoutManager(id,date){
 			
 			//$("#ExercisesContainer").append(html_exercise);
 		}
-		$("#ExercisesContainer").html('<table width="100%"><tr><td valign="top">' + html_exercise + '</td><td><a href="javascript:workoutMgr.removeExercise(' + id +', '+  + ');">1Remove</a></td></tr></table>');
+		$("#ExercisesContainer").html('<table width="100%"><tr><td valign="top">' + html_exercise + '</td></tr></table>');
 		this.addInputEventHandlers();
 	}
 	
@@ -258,7 +258,7 @@ function WorkoutManager(id,date){
                 $("#completesetbutton").button();
 		        var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
 				_this.workout.getExercises()[_this.workout.getExerciseIdIndex(id)].addSet(weight,reps,setNumber);
-				$('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Complete Set');
+				$('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Done');
 				$("#completesetbutton").button("enable");
 		    }
 
