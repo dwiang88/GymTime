@@ -14,8 +14,8 @@ function DataQuery(){
 	var QueryType = {Move: "Move", Question :"Question"};
 	
 	
-	DataQuery.prototype.getExerciseHistory = function(){
-	    return this.queryData({Action: "GetExerciseHistory"});
+	DataQuery.prototype.getExerciseHistory = function(setId,exerciseId){
+	    return this.queryData({Action: "GetExerciseHistory", SetId: setId, ExerciseId:exerciseId});
 	}
 	
 	DataQuery.prototype.removeSet = function(exerciseId, setId){
@@ -51,8 +51,8 @@ function WorkoutManager(id,date){
 	var _this = this; 
 	
 	WorkoutManager.prototype.getExerciseHistory = function(){
-	    var result = this.dataQuery.getExerciseHistory();
-	    
+	    var exerciseId = $(".workout-set").attr('id');
+	    var result = this.dataQuery.getExerciseHistory(this.getSetId(),exerciseId);
 	    $("#set-input-history-content").html(result);
 	}
 	

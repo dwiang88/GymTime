@@ -185,6 +185,10 @@ session_start();
             return $setId;         
         }
         
+        public function getHistoricalExerciseData($setId, $exerciseId){
+            
+        }
+        
         public function getExerciseData($setId){
             $exerciseIds = $this->getSetExercisesIDs($setId);
             $exercises = array();

@@ -129,6 +129,7 @@
             <div data-role="footer" data-position="fixed"> 
                 <h4>
 	                <input value="Done" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b">
+	                <a href="#set-input-history" data-rel="dialog" data-transition="pop">Open dialog</a>
 	            </h4>
             </div>            
          </div>
@@ -138,7 +139,7 @@
 	                <h4>Workout History</h4> 
 	            </div>        
 	            <script type="text/javascript">
-                    $('#set-input-history').live('pagecreate',function(event){
+                    $('#set-input-history').live('pageshow',function(event){
                       workoutMgr.getExerciseHistory();
                     });
 	            </script>

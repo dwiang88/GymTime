@@ -49,7 +49,11 @@ if($action == "GetExercises"){
 	print json_encode($exercises);
 }
 if($action == "GetExerciseHistory"){
-    print "Sweet";
+	$exerciseId = $_POST["ExerciseId"];
+	$setId = $_POST["SetId"];    
+    $sqlMgr = new SQLManager();
+    
+    print $exerciseId;
 }
 
 
