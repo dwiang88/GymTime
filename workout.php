@@ -129,12 +129,12 @@
             <div data-role="footer" data-position="fixed"> 
                 <h4>
 	                <input value="Done" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b">
-	                <a href="#set-input-history" data-rel="dialog" data-transition="pop">Open dialog</a>
+	                <a href="#set-input-history" data-role="button" data-rel="dialog" data-transition="pop">History</a>
 	            </h4>
             </div>            
          </div>
          
-        <div data-role="page" id="set-input-history">  
+        <div data-role="page" id="set-input-history" data-theme="b">  
                <div data-role="header">
 	                <h4>Workout History</h4> 
 	            </div>        
@@ -143,8 +143,7 @@
                       workoutMgr.getExerciseHistory();
                     });
 	            </script>
-            <div data-role="content" id="set-input-history-content">
-            </div>           
+            <div data-role="content" id="set-input-history-content" data-theme="b"></div>           
          </div>         
 
 </body>

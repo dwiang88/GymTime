@@ -51,9 +51,12 @@ function WorkoutManager(id,date){
 	var _this = this; 
 	
 	WorkoutManager.prototype.getExerciseHistory = function(){
+	    $.mobile.pageLoading();
+	    $("#set-input-history-content").html("");
 	    var exerciseId = $(".workout-set").attr('id');
 	    var result = this.dataQuery.getExerciseHistory(this.getSetId(),exerciseId);
 	    $("#set-input-history-content").html(result);
+	    $.mobile.pageLoading(true);
 	}
 	
 	WorkoutManager.prototype.completeSet = function(){

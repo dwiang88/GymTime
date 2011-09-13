@@ -52,8 +52,16 @@ if($action == "GetExerciseHistory"){
 	$exerciseId = $_POST["ExerciseId"];
 	$setId = $_POST["SetId"];    
     $sqlMgr = new SQLManager();
-    
-    print $exerciseId;
+    $historicalSets = $sqlMgr->getHistoricalExerciseData($setId,$exerciseId);
+    if($historicalSets != null){
+        print "<h3>". $historicalSets["ExerciseName"] . " - " . $historicalSets["DateAdded"] . "</h3>";
+        foreach($historicalSets["Sets"] as $set){
+            print "Set " . $set["SetNumber"] . " - Weight: " . $set["Weight"] . "lbs  " . " Repetitions: " . $set["Repetitions"] . "<br>";
+        }
+    } else {
+        print "No historical information for this exercise. You should consider doing this exercise you lazy ass.";
+    }
+   
 }
 
 

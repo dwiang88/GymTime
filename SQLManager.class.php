@@ -186,7 +186,31 @@ session_start();
         }
         
         public function getHistoricalExerciseData($setId, $exerciseId){
+            $setIdToFind = 0;
+            $exerciseIdToFind = 0;
+            $userId = $this->getUserId();
+            $sql = "SELECT SetID, ExerciseID FROM Sets WHERE UserID = \"$userId\" AND ExerciseID = \"$exerciseId\" AND Added < CURDATE() GROUP BY Added DESC  LIMIT 0, 1"; 
+            $result = mysql_query($sql, $this->con);
+            $row = mysql_fetch_row($result);
+            $setIdToFind = $row[0];
+            $exerciseIdToFind = $row[1];
             
+            if($row != false){
+                // Find Historical information for the set and exercise found previously
+                $sql = "SELECT Sets.ExerciseID, Weight, Added, Name, Repetitions, SetNumber FROM Sets, Exercises WHERE Exercises.ExerciseID = Sets.ExerciseID AND SetID=\"$setIdToFind\" AND Sets.ExerciseID = \"$exerciseIdToFind\" ORDER BY Sets.SetNumber;";
+                $result = mysql_query($sql, $this->con);
+                $sets = array();
+                $exerciseName = "";
+                $dateAdded = "";
+                while($row = mysql_fetch_array($result)) {
+                    $sets[] = array('Weight' => $row["Weight"], 'Repetitions' => $row['Repetitions'], 'SetNumber'=> $row['SetNumber']);
+                    $exerciseName = $row["Name"];
+                    $dateAdded = $row["Added"];
+                }
+                return array("Sets"=>$sets, "ExerciseName"=>$exerciseName, "DateAdded"=>$dateAdded);    
+            } else {
+                return null;
+            }        
         }
         
         public function getExerciseData($setId){
