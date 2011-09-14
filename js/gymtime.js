@@ -77,8 +77,8 @@ function WorkoutManager(id,date){
 	
 	WorkoutManager.prototype.showCompletedExercise = function (id){
 	   this.addToScreen(id);
-	   $("#completesetbutton").button();
-	   $(".removesetbutton").button();	 
+	   //$("#completesetbutton").button();
+	   //$(".removesetbutton").button();	 
 	   $.mobile.changePage( $("#set-input"), { transition: "slideup"} ); 
 	    
 	}
@@ -168,7 +168,7 @@ function WorkoutManager(id,date){
 		//this.refresh();
 		if(isValid){
 			this.addToScreen(this.workout.getExerciseIdIndex(this.getExercise().ID));
-	        $("#completesetbutton").button();
+	        //$("#completesetbutton").button();
 	        $(".removesetbutton").button();
 	        $.mobile.changePage( $('#set-input'), { transition: "slideup"} );
 	        
@@ -206,46 +206,15 @@ function WorkoutManager(id,date){
 			html_inputs +='		</div>';
 			html_inputs +=' </div>';		
 		}
-		$("#set-input-header .remove").attr("href", 'javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');');
+		$(".remove").attr("href", 'javascript:workoutMgr.removeExercise(' + id +', ' + this.setId + ');');
 		html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
 
 		$("#ExercisesContainer").html('<table align="center" style="width:100%;"><tr><td valign="top" align="center">' + html_exercise + '</td></tr></table>');
         $(".workout-input").textinput();
+        $(".workout-input:first").focus();
 		this.addInputEventHandlers();
 	}
-	
-	this.refresh = function(){
-		var html_title = '';
-		var html_inputs = '';
-		var html_exercise = '';
-		for(var x in this.workout.getExercises()){
-			html_exercise = '';
-			var name = this.workout.getExercises()[x].getExerciseName();
-			var id = this.workout.getExercises()[x].getExerciseID();
-			var sets = this.workout.getExercises()[x].getSets();
 
-			
-			html_title = '<div class="workout-set-title">' + name  + '</div>';
-			html_inputs = '';
-
-		    for(var i =0; i < 4; i++){
-		        var setNum = i + 1;
-		      
-			    html_inputs +='<div class="workout-sets" id="setnumber' + setNum +'">';
-			    html_inputs +='		<div style="width:100%;">';
-			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getWeight()) + '" class="workout-input weight" />lbs x';
-			    html_inputs +='			<input type="text" value="' + (sets[i] == undefined ? "" : sets[i].getRepetitions()) + '" class="workout-input repetitions" />';
-			    html_inputs +='		</div>';
-			    html_inputs +=' </div>';		
-		    }
-		    
-			html_exercise += '<div class="workout-set" id="' +  id +'">' + html_title + html_inputs + '</div>';
-			
-			//$("#ExercisesContainer").append(html_exercise);
-		}
-		$("#ExercisesContainer").html('<table width="100%"><tr><td valign="top">' + html_exercise + '</td></tr></table>');
-		this.addInputEventHandlers();
-	}
 	
 	this.addInputEventHandlers = function(){
 		var _this = this;
@@ -256,13 +225,14 @@ function WorkoutManager(id,date){
 			var weight = $("#setnumber" + setNumber + " .weight", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .weight", parent).val();
 			var reps = $("#setnumber" + setNumber + " .repetitions", parent).val() == "" ? 0 : $("#setnumber" + setNumber + " .repetitions", parent).val();
             if(reps != 0 && weight != 0){
-                $("#completesetbutton").button("disable");
-                $('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Saving Data &nbsp;');
-                $("#completesetbutton").button();
+                var onClick = $("#completesetbutton").attr("onclick");
+                $("#completesetbutton .ui-btn-text").text("Saving");
+                $("#completesetbutton").removeAttr("onclick");
 		        var result = _this.dataQuery.updateSet(id, weight, reps, setNumber,_this.workout.getWorkoutId());
 				_this.workout.getExercises()[_this.workout.getExerciseIdIndex(id)].addSet(weight,reps,setNumber);
-				$('#completesetbutton').prev('.ui-btn-inner').children('.ui-btn-text').html('Done');
-				$("#completesetbutton").button("enable");
+				$("#completesetbutton").attr('onclick', onClick);
+				$("#completesetbutton .ui-btn-text").text("Done");
+
 		    }
 
 

@@ -54,8 +54,8 @@
                         print '</script>';
                     ?>       
                         <fieldset class="ui-grid-a">
-	                        <div class="ui-block-a"><a href="#exercise-selection" data-role="button" data-icon="plus" data-theme="b">Start Exercise</a></div>
-	                        <div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish Workout</a></div>	   
+	                        <div class="ui-block-a"><a href="#exercise-selection" data-role="button" data-icon="plus" data-theme="b">Start</a></div>
+	                        <div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish</a></div>	   
                         </fieldset>
                         <br>
                         <div id="ExercisesCompleted">
@@ -119,18 +119,24 @@
  <! -- Set -->
         <div data-role="page" id="set-input">  
                <div data-role="header" data-position="inline" id="set-input-header">
-				<a href="javascript:workoutMgr.completeSet();"  data-icon="back" data-theme="b" >Back</a>
-	                <h4 id="set-input-title">Hi</h4> 
-					<a href="javascript:workoutMgr.completeSet();" class="remove" data-icon="delete" data-theme="b" >Remove</a>
+	                <h4 id="set-input-title"></h4>
 	            </div>        
             <div data-role="content">  
                 <div id="ExercisesContainer" style="width:100%;"></div>
             </div>
             <div data-role="footer" data-position="fixed"> 
-                <h4>
+                <div data-role="navbar" id="set-input-navbar">
+		                <ul>
+			                <li><a onclick="javascript:workoutMgr.completeSet();" data-role="button"  id="completesetbutton" data-theme="b">Done</a></li>
+			                <li><a href="#set-input-history" data-role="button" data-theme="b">History</a></li>
+			                <li><a href="javascript:workoutMgr.completeSet();" class="remove" data-theme="b" >Remove</a></li>
+		                </ul>
+                </div>            
+                <!--<h4>
 	                <input value="Done" onclick="javascript:workoutMgr.completeSet();"  id="completesetbutton" data-icon="check" data-theme="b">
 	                <a href="#set-input-history" data-role="button" data-rel="dialog" data-transition="pop">History</a>
 	            </h4>
+	            -->
             </div>            
          </div>
          
@@ -143,8 +149,13 @@
                       workoutMgr.getExerciseHistory();
                     });
 	            </script>
-            <div data-role="content" id="set-input-history-content" data-theme="b"></div>           
-         </div>         
+            <div data-role="content" id="set-input-history-content" data-theme="b"></div>
+              <div data-role="footer" data-position="fixed"> 
+                <div data-role="navbar" id="set-input-navbar">
+		            <ul><li><a data-rel="back" data-role="button" data-theme="b">Back</a></li></ul>
+                </div> 
+              </div>                         
+        </div>         
 
 </body>
 </html>
