@@ -40,6 +40,12 @@
 			                print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		                ?>
 	                </h4>
+<div data-role="navbar" id="set-input-navbar">
+<ul>
+<li><a href="#exercise-selection" data-role="button" data-theme="b">Start</a></li>
+<li><a href="index.php" data-role="button"  data-theme="b">Finish</a></li>
+</ul>
+</div>	                
                 </div>            
                 <div data-role="content">    
                     <?php
@@ -52,11 +58,12 @@
                             print   "$('#exercises-completed').live('pagecreate',function(event){workoutMgr.load('" . $data  . "');});";
                         }
                         print '</script>';
-                    ?>       
+                    ?>    <!--   
                         <fieldset class="ui-grid-a">
 	                        <div class="ui-block-a"><a href="#exercise-selection" data-role="button" data-icon="plus" data-theme="b">Start</a></div>
 	                        <div class="ui-block-b"><a href="index.php" data-role="button" data-icon="check" data-theme="b">Finish</a></div>	   
                         </fieldset>
+                        -->
                         <br>
                         <div id="ExercisesCompleted">
 						<?php
