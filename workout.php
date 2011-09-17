@@ -113,14 +113,18 @@
 					?>
 					</select>
 				</div>
-                <fieldset class="ui-grid-a">
-                <div class="ui-block-a"> <a href="javascript:workoutMgr.addExercise();" data-theme="b" data-role="button" data-icon="check">Start Set</a></div>
-                <div class="ui-block-b"><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" class="button">Return to Workout</a></div>	   
-                </fieldset> 
              </td>
              </tr>
              </table>   
            </div>
+            <div data-role="footer" data-position="fixed"> 
+               <div data-role="navbar" id="set-exercise-selection-navbar">
+               <ul>                
+                  <li><a href="javascript:workoutMgr.addExercise();" data-theme="b" data-role="button" data-icon="check" >Start Set</a></li>
+                  <li><a href="javascript:workoutMgr.completeSet();" data-theme="b" data-role="button" data-icon="back" >Return to Workout</a></li>
+               </ul>
+            </div>
+            </div>           
        </div>
        
  <! -- Set -->

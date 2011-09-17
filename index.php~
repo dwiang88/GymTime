@@ -1,35 +1,58 @@
 <?php session_start();
-   if(!isset($_SESSION['isLoggedIn'])){
+    require 'SQLManager.class.php';    
+    if(!isset($_SESSION['isLoggedIn']) || !isset($_SESSION['UserID'])){
         header( 'Location: login.php');
-   } else {
-   
-}
+    } else {
+        if($_SESSION['isLoggedIn'] == true && $_SESSION['UserID'] > 0){
+            
+        } else {
+            header( 'Location: login.php');
+        }
+    }
+    $sqlMgr = new SQLManager();   
+	
 ?>
+
+<!DOCTYPE html>
 <html>
 <head>
 <title>Workouts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="css/gymtime.css" /> 
-  <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
-  <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script> 
-  <script type="text/javascript">
-    $(document).ready(function(){
-        $("#newworkout").button();
-    });
-  </script>
+  <script src="js/gymtime.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
+<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
 </head>
 
 <body>
-<form action="dataquery.php?Action=AddWorkout" method="post">
-    <input type="submit" name="submit" value="New Workout" id="newworkout" /><br>
-</form>
+	<div data-role="page" id="gymtime-home">
+      <div data-role="header">
+         <h1>Gym Time</h1>
+         <div data-role="navbar">
+            <ul>
+               <?php
+	               $today = date("Y-m-d");
+	               $id = $sqlMgr->getWorkoutID($today);
+	               if($id == ""){
+               ?>
+               <li><a href="dataquery.php?Action=AddWorkout" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a></li>
 
-<?php
-   print "v0.2";
-         
-
-
-?>
-
+               <?php
+               } else {
+               ?>
+               <li><a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b"  data-iconpos="right" id="newworkout">Continue Today's Workout</a></li>
+               <?php 
+	               }
+               ?>
+               <li><a href="completedworkouts.php" rel="external" data-theme="b" data-role="button"  id="newworkout" data-iconpos="right" >Completed Workouts</a></li>
+            </ul>
+         </div>
+      </div>    
+		 <div data-role="content">
+       Welcome John.
+			
+		</div>
+	</div>
 </body>
 </html>

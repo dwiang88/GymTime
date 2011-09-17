@@ -27,25 +27,31 @@
 
 <body>
 	<div data-role="page" id="gymtime-home">
-		<div data-role="header">
-			<h1>Gym Time</h1>
-		</div>    
+      <div data-role="header">
+         <h1>Gym Time</h1>
+         <div data-role="navbar">
+            <ul>
+               <?php
+	               $today = date("Y-m-d");
+	               $id = $sqlMgr->getWorkoutID($today);
+	               if($id == ""){
+               ?>
+               <li><a href="dataquery.php?Action=AddWorkout" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a></li>
+
+               <?php
+               } else {
+               ?>
+               <li><a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b"  data-iconpos="right" data-icon="plus"  id="newworkout">Continue Today's Workout</a></li>
+               <?php 
+	               }
+               ?>
+               <li><a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="search"  id="newworkout" data-iconpos="right" >Completed Workouts</a></li>
+            </ul>
+         </div>
+      </div>    
 		 <div data-role="content">
-			<?php
-				$today = date("Y-m-d");
-				$id = $sqlMgr->getWorkoutID($today);
-				if($id == ""){
-			?>
-		   <a href="dataquery.php?Action=AddWorkout" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Create New Workout</a>
+       Welcome John.
 			
-			<?php
-			} else {
-			?>
-			<a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b" data-role="button" data-icon="plus"  id="newworkout">Continue Today's Workout</a>
-			<?php 
-				}
-			?>
-			<a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="search"  id="newworkout">Completed Workouts</a>
 		</div>
 	</div>
 </body>
