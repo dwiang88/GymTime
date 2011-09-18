@@ -50,7 +50,7 @@
          </div>
       </div>    
 		 <div data-role="content">
-       Welcome John.
+       Gymtime v1.0.8b
 			
 		</div>
 	</div>

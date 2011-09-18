@@ -41,16 +41,16 @@
                <?php
                } else {
                ?>
-               <li><a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b"  data-iconpos="right" id="newworkout">Continue Today's Workout</a></li>
+               <li><a href="workout.php?WorkoutID=<?php print $id; ?>" rel="external" data-theme="b"  data-iconpos="right" data-icon="plus"  id="newworkout">Continue Today's Workout</a></li>
                <?php 
 	               }
                ?>
-               <li><a href="completedworkouts.php" rel="external" data-theme="b" data-role="button"  id="newworkout" data-iconpos="right" >Completed Workouts</a></li>
+               <li><a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="search"  id="newworkout" data-iconpos="right" >Completed Workouts</a></li>
             </ul>
          </div>
       </div>    
 		 <div data-role="content">
-       Welcome John.
+       Gymtime v1.0.8
 			
 		</div>
 	</div>
