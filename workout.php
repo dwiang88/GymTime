@@ -3,15 +3,7 @@
 <html>
 <head>
 <?php
-    if(!isset($_SESSION['isLoggedIn']) || !isset($_SESSION['UserID'])){
-        header( 'Location: login.php');
-    } else {
-        if($_SESSION['isLoggedIn'] == true && $_SESSION['UserID'] > 0){
-            
-        } else {
-            header( 'Location: login.php');
-        }
-    }
+   require 'validate.php'; 
    require 'SQLManager.class.php';
    $workoutId = $_GET['WorkoutID'];
    $sqlMgr = new SQLManager();
@@ -35,11 +27,11 @@
             <div data-role="page" id="exercises-completed">
 			
                 <div data-role="header">
-	                <h4>	
+                <span style="display:block;text-align:center;margin:0.3em; overflow:hidden;text-overflow: ellipsis;width:100%;">	
 		                <?php 
-			                print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
+			                print date("l M j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		                ?>
-	                </h4>
+		        </span>        
 <div data-role="navbar" id="set-input-navbar">
 <ul>
 <li><a href="#exercise-selection" data-role="button" data-theme="b">Start</a></li>
@@ -85,7 +77,7 @@
                 <div data-role="header">
 	                <span style="text-align:center;">	
 		                <?php 
-			                print date("l F j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
+			                print date("l M j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		                ?>
 	                </span>        
 	            </div>          
@@ -130,7 +122,7 @@
  <! -- Set -->
         <div data-role="page" id="set-input">  
                <div data-role="header" data-position="inline" id="set-input-header">
-	                <h4 id="set-input-title"></h4>
+	                <span style="display:block;text-align:center;margin:0.3em; overflow:hidden;text-overflow: ellipsis;width:100%;" id="set-input-title"></span>
 	            </div>        
             <div data-role="content">  
                 <div id="ExercisesContainer" style="width:100%;"></div>
@@ -153,7 +145,7 @@
          
         <div data-role="page" id="set-input-history" data-theme="b">  
                <div data-role="header">
-	                <h4>Workout History</h4> 
+	                <span style="display:block;text-align:center;margin:0.3em; overflow:hidden;text-overflow: ellipsis;width:100%;">Workout History</span>
 	            </div>        
 	            <script type="text/javascript">
                     $('#set-input-history').live('pageshow',function(event){

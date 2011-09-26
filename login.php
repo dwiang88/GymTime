@@ -36,10 +36,13 @@
 <?php
     if(isset($_POST['submit'])){
         $sqlMgr = new SQLManager();
-        $result = $sqlMgr->validateUser($_POST['username'],md5($_POST['pw']));
+        $username = mysql_real_escape_string($_POST['username']);
+        $pw = mysql_real_escape_string($_POST['pw']);
+        $result = $sqlMgr->validateUser($username, md5($pw));
         if($result != -1){
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['UserID'] = $result;
+            $_SESSION['Username'] = $username;
             $sqlMgr->logLogin("SUCCESS", $result);
             header( 'Location: index.php');
         } else {

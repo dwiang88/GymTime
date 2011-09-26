@@ -1,14 +1,6 @@
 <?php session_start();
     require 'SQLManager.class.php';    
-    if(!isset($_SESSION['isLoggedIn']) || !isset($_SESSION['UserID'])){
-        header( 'Location: login.php');
-    } else {
-        if($_SESSION['isLoggedIn'] == true && $_SESSION['UserID'] > 0){
-            
-        } else {
-            header( 'Location: login.php');
-        }
-    }
+    require 'validate.php'; 
     $sqlMgr = new SQLManager();   
 	
 ?>
@@ -46,11 +38,14 @@
 	               }
                ?>
                <li><a href="completedworkouts.php" rel="external" data-theme="b" data-role="button" data-icon="search"  id="newworkout" data-iconpos="right" >Completed Workouts</a></li>
+               <li><a href="settings.php" rel="external" data-theme="b" data-role="button" data-icon="settings" id="settings">Settings</a></li>
             </ul>
          </div>
       </div>    
 		 <div data-role="content">
-       Gymtime v1.0.8b
+       Welcome <b><?php print $_SESSION['Username']; ?> </b> to Gymtime v1.0.9b
+
+
 			
 		</div>
 	</div>
