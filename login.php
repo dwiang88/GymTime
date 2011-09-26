@@ -30,7 +30,7 @@
     Username <input type="text" name="username" /> <div style="margin-top:15px;"/>
     Password <input type="password" name="pw" />
     <div style="margin-left:auto;margin-right:auto; width:40%;">
-        <input type="submit" name="submit" value="Validate" data-theme="b" id="submitlogin"/>
+        <input type="submit" name="submit" value="Login" data-theme="b" id="submitlogin"/>
     </div>
 </form>
 <?php

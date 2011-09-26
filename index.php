@@ -43,10 +43,8 @@
          </div>
       </div>    
 		 <div data-role="content">
-       Welcome <b><?php print $_SESSION['Username']; ?> </b> to Gymtime v1.0.9b
+       Welcome <b><?php print $_SESSION['Username']; ?> </b> to Gymtime v1.0.9b <br><br>
 
-
-			
 		</div>
 	</div>
 </body>

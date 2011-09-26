@@ -75,11 +75,11 @@
                    
          </script>
                 <div data-role="header">
-	                <span style="text-align:center;">	
+	                <h4>	
 		                <?php 
 			                print date("l M j, Y",strtotime($sqlMgr->getWorkoutDate($workoutId))); 
 		                ?>
-	                </span>        
+	                </h4>        
 	            </div>          
             <div data-role="content">
             <table align="center" style="width:100%;">
@@ -122,7 +122,7 @@
  <! -- Set -->
         <div data-role="page" id="set-input">  
                <div data-role="header" data-position="inline" id="set-input-header">
-	                <span style="display:block;text-align:center;margin:0.3em; overflow:hidden;text-overflow: ellipsis;width:100%;" id="set-input-title"></span>
+	                <h4 id="set-input-title"></h4>
 	            </div>        
             <div data-role="content">  
                 <div id="ExercisesContainer" style="width:100%;"></div>
