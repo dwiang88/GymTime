@@ -1,15 +1,7 @@
 <?php 
 session_start();
 require 'SQLManager.class.php';
-    if(!isset($_SESSION['isLoggedIn']) || !isset($_SESSION['UserID'])){
-        header( 'Location: login.php');
-    } else {
-        if($_SESSION['isLoggedIn'] == true && $_SESSION['UserID'] > 0){
-            
-        } else {
-            header( 'Location: login.php');
-        }
-    }
+
     
 $action = "";
 //$action = $_GET["Action"];
@@ -37,19 +29,19 @@ if($action == "AddSet"){
     $sqlMgr->updateSet($exerciseId, $weight, $reps, $setNumber, $workoutId);
 }
 if($action == "RemoveSet"){
-	$exerciseId = $_POST["ExerciseId"];
-	$setId = $_POST["SetId"];
+	$exerciseId = mysql_real_escape_string($_POST["ExerciseId"]);
+	$setId = mysql_real_escape_string($_POST["SetId"]);
 	$sqlMgr = new SQLManager();
 	$sqlMgr->removeSet($exerciseId,$setId);
 }
 if($action == "GetExercises"){
-	$muscleGroup = $_POST["MuscleGroup"] == "null" ? null : $_POST["MuscleGroup"];
+	$muscleGroup = $_POST["MuscleGroup"] == "null" ? null : mysql_real_escape_string($_POST["MuscleGroup"]);
 	$sqlMgr = new SQLManager();
 	$exercises = $sqlMgr->getExercises($muscleGroup);
 	print json_encode($exercises);
 }
 if($action == "GetExerciseHistory"){
-	$exerciseId = $_POST["ExerciseId"];
+	$exerciseId = mysql_real_escape_string($_POST["ExerciseId"]);
 	$setId = $_POST["SetId"];    
     $sqlMgr = new SQLManager();
     $historicalSets = $sqlMgr->getHistoricalExerciseData($setId,$exerciseId);

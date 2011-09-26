@@ -263,6 +263,8 @@ session_start();
             return $exerciseIds;         
         }
         public function validateUser($username, $pw){
+            $username = mysql_real_escape_string($username);
+            $pw = mysql_real_escape_string($pw);
             $userId = "-1";
             $sql = "SELECT UserID FROM Users WHERE Username=\"$username\" AND Password=\"$pw\"";
             $result = mysql_query($sql, $this->con);
@@ -270,6 +272,14 @@ session_start();
                 $userId = $row['UserID'];
             }
             return $userId;            
+        }
+        public function changePassword($pw){
+            $newpw = md5(mysql_real_escape_string($pw));
+            $userId = $this->getUserId();
+            $sql = "UPDATE  Users SET Password = \"$newpw\" WHERE  UserID=\"$userId\"";
+            mysql_query($sql);
+            return mysql_affected_rows();      
+               
         }
 
     }
