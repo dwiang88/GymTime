@@ -29,19 +29,19 @@ if($action == "AddSet"){
     $sqlMgr->updateSet($exerciseId, $weight, $reps, $setNumber, $workoutId);
 }
 if($action == "RemoveSet"){
-	$exerciseId = mysql_real_escape_string($_POST["ExerciseId"]);
-	$setId = mysql_real_escape_string($_POST["SetId"]);
+	$exerciseId = $_POST["ExerciseId"];
+	$setId = $_POST["SetId"];
 	$sqlMgr = new SQLManager();
 	$sqlMgr->removeSet($exerciseId,$setId);
 }
 if($action == "GetExercises"){
-	$muscleGroup = $_POST["MuscleGroup"] == "null" ? null : mysql_real_escape_string($_POST["MuscleGroup"]);
+	$muscleGroup = $_POST["MuscleGroup"] == "null" ? null : $_POST["MuscleGroup"];
 	$sqlMgr = new SQLManager();
 	$exercises = $sqlMgr->getExercises($muscleGroup);
 	print json_encode($exercises);
 }
 if($action == "GetExerciseHistory"){
-	$exerciseId = mysql_real_escape_string($_POST["ExerciseId"]);
+	$exerciseId = $_POST["ExerciseId"];
 	$setId = $_POST["SetId"];    
     $sqlMgr = new SQLManager();
     $historicalSets = $sqlMgr->getHistoricalExerciseData($setId,$exerciseId);
